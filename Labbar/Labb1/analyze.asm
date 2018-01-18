@@ -4,7 +4,7 @@
 
 	.text
 main:
-	li	$s0,0x30
+	li	$s0,0x30	# stores 0x30 in $s0
 loop:
 	move	$a0,$s0		# copy from s0 to a0
 	
