@@ -1,4 +1,4 @@
-  # timetemplate.asm
+ # timetemplate.asm
   # Written 2015 by F Lundevall
   # Copyright abandonded - this file is in the public domain.
 
@@ -70,6 +70,7 @@ tick:	lw	$t0,0($a0)	# get time
 	addiu	$t0,$t0,0xa000	# adjust last digit
 tiend:	sw	$t0,0($a0)	# save updated result
 	jr	$ra		# return
+	nop
 
   # you can write your code for subroutine "hexasc" below this line
   #
@@ -151,57 +152,4 @@ time2string:
 	jr	$ra		# jumps using returnadress
 	nop			# delay slot filler (just in case)
 				
-=======
-	andi	$v0,$a0,15	#Keep the 4 least significant bits
-	slti	$t3,$v0,0x0a	#if a < 10 t0 = 1 else 0
-	bne	$t3,$0,if	#if t0 != 0 go to if
-	addi	$v0,$v0,0x07	#Add the amount of elements between 9 and A in ASCII table
-if:
-	addi	$v0,$v0,0x30	#Add the index of '0' in the ASCII table
-	jr	$ra		#Return to main
-	nop
-# Delay function
-delay:
-	jr $ra
-	nop
-# To String function
-time2string:
-
-	PUSH    ($ra)           # nested subroutine must store $ra too
-	
-	add	$t0,$0,$a0	# adressen
-	add	$t1,$0,$a1	# Tiden som ska lagras
-	
-	
-	andi	$t2,$t1,0xf000
-	srl	$a0,$t2,12
-	jal	hexasc
-	nop
-	sb	$v0,0($t0)
-	
-	andi	$t2,$t1,0xf00
-	srl	$a0,$t2,8
-	jal	hexasc
-	nop
-	sb	$v0,1($t0)
-	
-	li	$t5,0x3A
-	sb	$t5,2($t0)
-	
-	andi	$t2,$t1,0xf0
-	srl	$a0,$t2,4
-	jal	hexasc
-	nop
-	sb	$v0,3($t0)
-	
-	andi	$a0,$t1,0xf
-	jal	hexasc
-	nop
-	sb	$v0,4($t0)
-
-	POP ($ra)
-	
-	jr	$ra
-	nop
-	
 	
