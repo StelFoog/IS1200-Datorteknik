@@ -74,3 +74,83 @@ tiend:	sw	$t0,0($a0)	# save updated result
 
   # you can write your code for subroutine "hexasc" below this line
   #
+hexasc:
+	PUSH($t0)		# saves $t0 in memory so it can be used properly in time2string subroutine
+	andi	$v0, $a0, 15	# sets $v0 equal to the 4 least significant bits of $a0
+	
+	sge	$t0, $v0, 10	# goes to l1 if v0 is greater than or equal to 10
+	beq	$t0, 1, l1	
+	
+	add	$v0, $v0, 0x30	# adds 0x30 to $v0
+	
+	POP($t0)		# retrives $t0 from memory
+	jr 	$ra		# returns to the part of main where we left
+	nop			# delay slot filler (just in case)
+	
+l1:
+	add	$v0, $v0, 0x37	# adds 0x30 to $v0
+	
+	jr	$ra		# jumps using the returnadress
+	nop			# delay slot filler (just in case)
+  
+  
+  # "delay" subroutine
+  #
+delay:
+	jr $ra
+	nop
+	
+  # "time2string" subroutine
+  #
+time2string:
+	PUSH($t0)		# free up $t0, $t1 and $ra
+	PUSH($t1)
+	PUSH($ra)
+	
+	move	$t0, $a0	# save $a0 to $t0
+	
+	# save the first minute nibble to $a0, shift it to the right, activate hexasc and store the result ($v0)
+	andi	$t1, $a1, 0xf000
+	srl	$a0, $t1, 12
+	jal	hexasc
+	nop
+	sb	$v0, 0($t0)
+	
+	# save the second minute nibble to $a0, shift it to the right, activate hexasc and store the result ($v0)
+	andi	$t1, $a1, 0x0f00
+	srl	$a0, $t1, 8
+	jal	hexasc
+	nop
+	sb	$v0, 1($t0)
+	
+	# store the hexvalue for ':' in $v0 and store it	
+	li	$v0, 0x3A
+	sb	$v0, 2($t0)
+	
+	# save the first second nibble to $a0, shift it to the right, activate hexasc and store the result ($v0)	
+	andi	$t1, $a1, 0x00f0
+	srl	$a0, $t1, 4
+	jal	hexasc
+	nop
+	sb	$v0, 3($t0)
+	
+	
+	# save the second minute nibble to $a0, activate hexasc and store the result ($v0)	
+	andi	$a0, $a1, 0x000f
+	jal	hexasc
+	nop
+	sb	$v0, 4($t0)
+	
+	# store the hexvalue for a null byte in $v0 and store it	
+	li	$v0, 0x0
+	sb	$v0, 5($t0)
+	
+	POP($ra)		# restore $t0, $t1 and $ra
+	POP($t1)
+	POP($t0)
+	
+	jr	$ra		# jumps using returnadress
+	nop			# delay slot filler (just in case)
+				
+	
+	
