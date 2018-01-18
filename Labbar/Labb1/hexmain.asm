@@ -23,7 +23,7 @@ hexasc:
 	andi	$v0, $a0, 15	# sets $v0 equal to the 4 least significant bits of $a0
 	
 	sge	$t0, $v0, 10	# goes to l1 if v0 is greater than or equal to 10
-	beq	$t0, 1, if	
+	beq	$t0, 1, l1	
 	
 	add	$v0, $v0, 0x30	# adds 0x30 to $v0
 	
