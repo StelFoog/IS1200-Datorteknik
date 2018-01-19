@@ -96,35 +96,43 @@ l1:
   
   
   # "delay" subroutine
+  # the register $t7 stands for the ms the program runs for
   #
 delay:
+	# frees up the variables $s0, $t0 and $s1
 	PUSH($s0)
 	PUSH($t0)
 	PUSH($s1)
-	li	$s1, 5
+	li	$s1, 2		# sets $s1 to a constant, in this case 2
 	
 delayloop1:
-	sge	$t0, $t7, 0
-	bne	$t0, 1, delayend
-	nop
-	sub	$t7, $t7, 1
-	li	$s0, 0
+	# checks if $t7 is less than or equal to 0 and if so moves to delayend
+	sle	$t0, $t7, $0
+	bne	$t0, 0, delayend
+	nop			# delay slot filler (just in case)
+	
+	subi	$t7, $t7, 1	# subtracts 1 from $t7
+	li	$s0, 0		# sets $s0 to 0
 	
 delayloop2:
+	# checks if $s0 is less than or equal to $s1 and if so moves to delayend
 	slt	$t0, $s0, $s1
 	beq	$t0, 0, delayloop1
-	nop
-	add	$s0, $s0, 1
-	j	delayloop2
-	nop
+	nop			# delay slot filler (just in case)
+	nop			# extra delay to make delayloop2 take 1 ms
+	
+	addi	$s0, $s0, 1	# adds 1 to $s0
+	j	delayloop2	# begins the loop again
+	nop			# delay slot filler (just in case)
 	
 	
 delayend:
+	# restores registers $s1, $t0 and $s0
 	POP($s1)
 	POP($t0)
 	POP($s0)
-	jr 	$ra
-	nop
+	jr 	$ra		# jumps using the return adress
+	nop			# delay slot filler (just in case)
 	
   # "time2string" subroutine
   #
