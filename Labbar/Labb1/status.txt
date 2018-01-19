@@ -1,7 +1,0 @@
-Assignment 1 (Completed)	- analyze.asm 
-
-Assignment 2 (Completed)	- hexmain.asm
-
-Assignment 3 (Completed)	- timetemplate.asm
-
-Assignment 4 (WIP)		- timetemplate (Assignment 4).asm 
