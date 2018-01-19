@@ -6,4 +6,8 @@ Assignment 3 (Completed)	- timetemplate.asm
 
 Assignment 4 (Completed)	- timetemplate (Assignment 4).asm
 
-Assignment 5 (Completed)  - Follow up on A4
+Assignment 5 (Completed)	- Follow up on A4
+
+Assignment 6 (Completed)	- time4mips (folder)
+
+Assignment 7 (Done at lab)
