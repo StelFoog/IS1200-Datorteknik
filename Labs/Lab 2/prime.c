@@ -9,13 +9,13 @@
 #include <stdio.h>
 
 int is_prime(int n){
-  int result = 0; // assumes number isn't prime
+  int result = 1; // assumes number is prime
   for(int i = 2; i < n/2; i++)
-    if(n%i == 0) { // checks if it is
-      result = 1; // sets result to 1
-      break; // leaves the loop since we know it's prime already
+    if(n%i == 0) { // checks if number isn't prime
+      result = 0; // sets result to 0
+      break; // leaves the loop since we know it's not prime already
     }
-  
+
   return result;
 }
 
