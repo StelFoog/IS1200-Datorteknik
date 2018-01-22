@@ -1,0 +1,3 @@
+Assignment 1 (Completed)	- prime.c & prime
+
+Assignment 2 (Completed)	- print_primes.c & printPrimes
