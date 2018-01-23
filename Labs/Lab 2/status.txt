@@ -3,3 +3,5 @@ Assignment 1 (Completed)	- prime.c & prime
 Assignment 2 (Completed)	- print_primes.c & printPrimes
 
 Assignment 3 (Completed)	- sieves.c & printSieves, sieves_heap.c & printSievesHeap
+
+Assignment 4 (Completed)	- pointers.asm & pointers.c & pointersExc
