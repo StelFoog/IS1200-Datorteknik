@@ -10,32 +10,34 @@
 #include <stdlib.h>
 
 #define COLUMNS 6
+int numbersInRow = 0;
+
+void printNumber(int num) {
+  printf("%10d ", num);
+  numbersInRow++; // increases the count
+  if(numbersInRow == COLUMNS) {
+    printf("\n");
+    numbersInRow = 0;
+  }
+}
+
+int is_prime(int n){
+  int result = 1; // assumes number is prime
+  for(int i = 2; i < n/2; i++)
+    if(n%i == 0) { // checks if number isn't prime
+      result = 0; // sets result to 0
+      break; // leaves the loop since we know it's not prime already
+    }
+  return result;
+}
 
 void print_primes(int n){
-  int countPrime = 0;
-  if(n >= 2) { // checks if the number is 2 or higher
-    printf("%10d ", 2); // prints the first prime number
-    countPrime++; // starts counting the primes
-  }
-  int isPrime;
+  if(n >= 2) // checks if the number is 2 or higher
+    printNumber(2); // prints the first prime
   for(int i = 3; i < n; i++) {
-    isPrime = 1; // assumes the number is a prime
-    for(int j = 2; j <= i/2; j++) {
-      if(i%j == 0) { // checks if it's divisable
-        isPrime = 0; // says number isn't prime
-        break; // leaves the loop since we know it's not prime already
-      }
-    }
-    if(isPrime) { // prints the number if it's prime
-      printf("%10d ", i);
-      countPrime++; // increases the count
-      if(countPrime == COLUMNS) { // checks if the primes has filles the row
-        printf("\n"); // starts a new row of primes
-        countPrime = 0; // resets the count
-      }
-    }
+    if(is_prime(i)) // prints the number if it's prime
+      printNumber(i);
   }
-
   printf("\n");
 }
 
