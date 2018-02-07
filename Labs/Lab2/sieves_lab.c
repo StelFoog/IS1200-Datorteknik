@@ -36,7 +36,7 @@ void printSieves(int n) {
       temp = i;
     }
   }
-  printf("\n Number of 8 distances %d", eight);
+  printf("\n Number of 8 distances %d\n", eight);
 }
 
 // 'argc' contains the number of program arguments, and

@@ -15,7 +15,7 @@ void printNumber(int num) {
 }
 
 void printSieves(int n) {
-  int *possiblePrimePt = malloc(n-2 * sizeof(int)); // declares a "boolean" array in heap assuming all numbers to be prime
+  char *possiblePrimePt = malloc(n-2 * sizeof(char)); // declares a "boolean" array in heap assuming all numbers to be prime
   for(int i = 2; i < n; i++) {
     possiblePrimePt[i-2] = 1;
   }

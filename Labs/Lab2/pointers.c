@@ -9,18 +9,18 @@ char* text2 = "Yet another thing.";
 int list1[20], list2[20]; // 20 since an int is 4 bytes in size, 80/4 = 20
 int count = 0;
 
-void copycodes(char *a0, int *a1) {
+void copycodes(char *a0, int *a1, int *countP) {
   while(*a0 != '\0') { // runs until string is finished
     *a1 = *a0; // puts data in a0 in a1
     a0++; // increases adress value of a0 by one
     a1++; // increases adress value of a1 by four
-    count++; // increases count by one
+    (*countP)++; // increases count by one
   }
 }
 
 void work() {
-  copycodes(text1, list1); // executes copycodes with text1 and list1
-  copycodes(text2, list2); // executes copycodes with text2 and list2
+  copycodes(text1, list1, &count); // executes copycodes with text1 and list1
+  copycodes(text2, list2, &count); // executes copycodes with text2 and list2
 }
 
 void printlist(const int* lst){

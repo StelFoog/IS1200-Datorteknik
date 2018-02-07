@@ -15,7 +15,7 @@ void printNumber(int num) {
 }
 
 void printSieves(int n) {
-  int possiblePrime[n-2]; // declares a "boolean" array assuming all numbers to be prime
+  char possiblePrime[n-2]; // declares a "boolean" array assuming all numbers to be prime
   for(int i = 2; i < n; i++) {
     possiblePrime[i-2] = 1;
   }
