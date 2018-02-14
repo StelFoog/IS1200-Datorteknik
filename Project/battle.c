@@ -1,5 +1,7 @@
-#include <stdlib>
-#include "testing.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include "main.h"
 #include "battle.h"
 
 unsigned int damageCalc(int level, char basePow, int atk, int def, double stab, double type1, double type2) {
@@ -162,13 +164,21 @@ double stab(type move, type user1, type user2) {
 }
 
 unsigned char priority(moveStruct move1, moveStruct move2, int speed1, int speed2) {
-    unsigned char retval = 1;
+    unsigned char retval = 0;
     if((move1.phySpecPrio & 0x0f) < (move2.phySpecPrio & 0x0f)) {
-        retval = 2;
+        retval = 1;
     } else if((move1.phySpecPrio & 0x0f) == (move2.phySpecPrio & 0x0f)) {
         if(speed1 < speed2) {
-            retval = 2;
+            retval = 1;
         }
     }
     return retval;
+}
+
+void battlePhase(battlePokemon *pokemon1, battlePokemon *pokemon2, moveStruct move1, moveStruct move2) {
+    if(priority(move1, move2, (*pokemon1).speed, (*pokemon2).speed)) {
+        printf("Pokemon 2 går först :)\n");
+    } else {
+        printf("Pokemon 1 går först :)\n");
+    }
 }
