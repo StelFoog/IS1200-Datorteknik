@@ -1,0 +1,2 @@
+graphics.c.o: graphics.c graphics.h
+graphics.c graphics.h :
