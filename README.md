@@ -7,7 +7,7 @@ Lab assignments och project to the course IS1200-Datorteknik
 
 * ***Lab 1***
   * **Assignment 1:** Complete
-  * **Assignment 2:** Complete
+  * **Assignment 2:** Complete
   * **Assignment 3:** Complete
   * **Assignment 4:** Complete
   * **Assignment 5:** Complete
