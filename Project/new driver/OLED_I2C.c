@@ -111,7 +111,7 @@ void drawBitmap(int x, int y, unsigned char bitmap[], int sx, int sy)
 	unsigned char data; // byte = unsigned char
     int cy;
 	for (cy=0; cy<sy; cy++) {
-		bit= cy % 8;
+		bit = cy % 8;
         int cx;
 		for(cx=0; cx<sx; cx++) {
             data = bitmap[cx+((cy/8)*sx)];
@@ -122,6 +122,35 @@ void drawBitmap(int x, int y, unsigned char bitmap[], int sx, int sy)
 		}
 	}
 }
+
+
+void drawSprite(int x, int y, unsigned char bitmap[]) {
+    unsigned char data;
+    int cx;
+    int cy;
+    int sx = 32;
+    int sy = 4;
+    int i;
+    for(cx = 0; cx < sx; cx++) {
+        for(cy = 0; cy < sy; cy++) {
+            data = bitmap[(3-cy) + (sy * cx)];
+            for(i = 0; i < 8; i++) {
+                if(data & (1 << i)) {
+                    setPixel(x+cx, y+(cy*8)+i);
+                } else {
+                    clrPixel(x+cx, y+(cy*8)+i);
+                }
+            }
+/*
+            data = bitmap[cy + (sy * cx)];
+            if ((data & (1<<bit))>0)
+				setPixel(x+cx, y+cy);
+			else
+				clrPixel(x+cx, y+cy);*/
+        }
+    }
+}
+
 
 // Private
 

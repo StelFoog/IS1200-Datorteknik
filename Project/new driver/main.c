@@ -73,7 +73,34 @@ int main(void){
 
     }
     */
-    drawBitmap(128-32, 0, qminx.front, 32, 4);
-    drawBitmap(0, 64-32, qminx.back, 32, 4);
+    int i = 0;
+    while(1) {
+
+        if(IFS(0) & 0x100){ // check if interrupt flag is enabled
+          timeoutcount++; // Increment timeoutcount
+          IFSCLR(0) = 0x100; //Reset the timeout flag
+        }
+        if(timeoutcount == 5){ // If timeoutcount is 10
+          i++;
+          if(i > 3) {
+              i = 0;
+          }
+          timeoutcount = 0;
+        }
+        if(i == 0) {
+            clrScr();
+            drawSprite(128-32, 0, qminx.front);
+        } else if(i == 1 || i == 3) {
+            clrScr();
+            drawSprite(128-32, 1, qminx.front);
+        } else {
+            clrScr();
+            drawSprite(128-32, 2, qminx.front);
+        }
+        update();
+    }
+
+    drawSprite(0, 64-32, qminx.back);
     update();
+
 }
