@@ -21,6 +21,7 @@ const word cursor;
 const word MysticFire;
 const word Slam;
 const word WingAttack;
+
 const sprite qminx;
 
 #endif

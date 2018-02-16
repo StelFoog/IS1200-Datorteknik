@@ -39,7 +39,6 @@ void begin()
 
 	clrScr();
 	update();
-	//cfont.font=0; Dont know what this do
 }
 
 void delay (unsigned int t) {
@@ -77,8 +76,8 @@ void setPixel(uint16_t x, uint16_t y)
 
 	if ((x>=0) && (x<128) && (y>=0) && (y<64))
 	{
-		by=((y/8)*128)+x;
-		bi=y % 8;
+		by = ((y/8)*128)+x;
+		bi = y % 8;
 
 		scrbuf[by]=scrbuf[by] | (1<<bi);
 	}
@@ -104,103 +103,36 @@ void invert(bool mode)
 		_sendTWIcommand(SH1106_NORMAL_DISPLAY);
 }
 
-
 void drawBitmap(int x, int y, unsigned char bitmap[], int sx, int sy)
 {
 	int bit;
 	unsigned char data; // byte = unsigned char
-    int cy;
+  int cy;
 	for (cy=0; cy<sy; cy++) {
-		bit = cy % 8;
-        int cx;
+	  bit = cy % 8;
+    int cx;
 		for(cx=0; cx<sx; cx++) {
-            data = bitmap[cx+((cy/8)*sx)];
-            if ((data & (1<<bit))>0)
+      data = bitmap[cx+((cy/8)*sx)];
+      if ((data & (1<<bit))>0)
 				setPixel(x+cx, y+cy);
 			else
 				clrPixel(x+cx, y+cy);
 		}
 	}
 }
-
-
-void drawSprite(int x, int y, unsigned char bitmap[]) {
-    unsigned char data;
-    int cx;
-    int cy;
-    int sx = 32;
-    int sy = 4;
-    int i;
-    for(cx = 0; cx < sx; cx++) {
-        for(cy = 0; cy < sy; cy++) {
-            data = bitmap[(3-cy) + (sy * cx)];
-            for(i = 0; i < 8; i++) {
-                if(data & (1 << i)) {
-                    setPixel(x+cx, y+(cy*8)+i);
-                } else {
-                    clrPixel(x+cx, y+(cy*8)+i);
-                }
-            }
-/*
-            data = bitmap[cy + (sy * cx)];
-            if ((data & (1<<bit))>0)
-				setPixel(x+cx, y+cy);
-			else
-				clrPixel(x+cx, y+cy);*/
-        }
+void drawSprite(int x, int y, unsigned char bitmap[]){
+  unsigned char data;
+  int cx;
+  int cy;
+  int bit;
+  for(cx = 0; cx < 32; cx++){
+    for(cy= 0; cy < 32; cy++){
+      bit = cy % 8;                       // Which bit of chunk that is chosen
+      data = bitmap[(cx * 4) + cy/8];     // Get the chunck
+      if((data & (0x80>>bit))>0)          // Choose correct bit of the chick
+        setPixel(x+cx, y+cy);             // Set correct pixel
+      else
+        clrPixel(x+cx, y+cy);
     }
+  }
 }
-
-
-// Private
-
-/*
-void i2c_idle() {
-	while(I2C1CON & 0x1F || I2C1STAT & (1 << 14)); //TRSTAT
-}
-
-void _sendStart(unsigned char addr)
-{
-  i2c_idle();
-	I2C1CONSET = 1 << 0; //SEN
-	i2c_idle();
-}
-
-void _sendStop()
-{
-  i2c_idle();
-	I2C1CONSET = 1 << 2; //PEN
-	i2c_idle();
-}
-
-void _sendNack()
-{
-  i2c_idle();
-	I2C1CONSET = 1 << 5; //ACKDT = 1
-	I2C1CONSET = 1 << 4; //ACKEN = 1
-}
-
-void _sendAck()
-{
-  i2c_idle();
-	I2C1CONCLR = 1 << 5; //ACKDT = 0
-	I2C1CONSET = 1 << 4; //ACKEN = 1
-}
-
- Hopefully we can mange without this
-void _waitForAck()
-{
-	pinMode(_sda_pin, INPUT);
-	digitalWrite(_scl_pin, HIGH);
-	while (digitalRead(_sda_pin)==HIGH) {}
-	digitalWrite(_scl_pin, LOW);
-}
-
-void _writeByte(uint8_t value)
-{
-  i2c_idle();
-	I2C1TRN = value;
-  i2c_idle();
-	//return !(I2C1STAT & (1 << 15)); //ACKSTAT
-}
-*/

@@ -27,8 +27,9 @@ void init(){
   begin();
 }
 int main(void){
+
   init();
-  /*
+/*
   int i, up, right;
   char peter = 1;
   char button = 0;
@@ -73,6 +74,7 @@ int main(void){
 
     }
     */
+    /*
     int i = 0;
     while(1) {
 
@@ -102,5 +104,8 @@ int main(void){
 
     drawSprite(0, 64-32, qminx.back);
     update();
-
+    */
+    drawSprite(128-32,0,qminx.front);
+    drawBitmap(0,0, MysticFire.data, charWidth * MysticFire.width, charHeight* MysticFire.height);
+    update();
 }
