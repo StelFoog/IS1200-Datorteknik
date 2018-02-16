@@ -28,6 +28,7 @@ void init(){
 }
 int main(void){
   init();
+  /*
   int i, up, right;
   char peter = 1;
   char button = 0;
@@ -69,5 +70,10 @@ int main(void){
     drawBitmap(0, 32 + 8, WingAttack.data, charWidth * WingAttack.width, charHeight * WingAttack.height);
 
     if(i % 2 ) drawBitmap(64-16 + right * 64 ,8 + up * 32 , cursor.data, cursor.width, cursor.height);
-  }
+
+    }
+    */
+    drawBitmap(128-32, 0, qminx.front, 32, 4);
+    drawBitmap(0, 64-32, qminx.back, 32, 4);
+    update();
 }

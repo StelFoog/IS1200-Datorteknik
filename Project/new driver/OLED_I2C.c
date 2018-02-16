@@ -109,15 +109,13 @@ void drawBitmap(int x, int y, unsigned char bitmap[], int sx, int sy)
 {
 	int bit;
 	unsigned char data; // byte = unsigned char
-  int cy;
-	for (cy=0; cy<sy; cy++)
-	{
+    int cy;
+	for (cy=0; cy<sy; cy++) {
 		bit= cy % 8;
-    int cx;
-		for(cx=0; cx<sx; cx++)
-		{
-      data = bitmap[cx+((cy/8)*sx)];
-      if ((data & (1<<bit))>0)
+        int cx;
+		for(cx=0; cx<sx; cx++) {
+            data = bitmap[cx+((cy/8)*sx)];
+            if ((data & (1<<bit))>0)
 				setPixel(x+cx, y+cy);
 			else
 				clrPixel(x+cx, y+cy);
