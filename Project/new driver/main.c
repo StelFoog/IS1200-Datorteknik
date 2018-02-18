@@ -29,51 +29,57 @@ void init(){
 int main(void){
 
   init();
-/*
+
   int i, up, right;
   char peter = 1;
   char button = 0;
   while(1){
+    drawSprite(0,0,startScreen,128, 64);
     update();
-    if(getbtns() && peter){
-      peter = 0;
-      if(getbtns() & 0x1){
-          button += 1;
+    if(getbtns()){
+      clrScr();
+      while(1){
+        update();
+        if(getbtns() && peter){
+          peter = 0;
+          if(getbtns() & 0x1){
+              button += 1;
+          }
+          if(getbtns() & 0x2) {
+              button -= 1;
+          }
+        }
+        if(button >= 4){
+          button = 0;
+        } else if(button < 0) {
+          button = 3;
+        }
+        if(button > 1){
+          up = 1;
+        } else up = 0;
+        if(button % 2){
+          right = 1;
+        } else right = 0;
+
+        if(IFS(0) & 0x100){ // check if interrupt flag is enabled
+          timeoutcount++; // Increment timeoutcount
+          IFSCLR(0) = 0x100; //Reset the timeout flag
+        }
+        if(timeoutcount == 5){ // If timeoutcount is 10
+          peter = 1;
+          i++;
+          timeoutcount = 0;
+        }
+        clrScr();
+        drawBitmap(0,8, MysticFire.data, charWidth * MysticFire.width, charHeight * MysticFire.height);
+        drawBitmap(64, 8, Slam.data, charWidth*Slam.width, charHeight * Slam.height);
+        drawBitmap(0, 32 + 8, WingAttack.data, charWidth * WingAttack.width, charHeight * WingAttack.height);
+
+        if(i % 2 ) drawBitmap(64-16 + right * 64 ,8 + up * 32 , cursor.data, cursor.width, cursor.height);
+
+        }
       }
-      if(getbtns() & 0x2) {
-          button -= 1;
-      }
     }
-    if(button >= 4){
-      button = 0;
-    } else if(button < 0) {
-      button = 3;
-    }
-    if(button > 1){
-      up = 1;
-    } else up = 0;
-    if(button % 2){
-      right = 1;
-    } else right = 0;
-
-    if(IFS(0) & 0x100){ // check if interrupt flag is enabled
-      timeoutcount++; // Increment timeoutcount
-      IFSCLR(0) = 0x100; //Reset the timeout flag
-    }
-    if(timeoutcount == 5){ // If timeoutcount is 10
-      peter = 1;
-      i++;
-      timeoutcount = 0;
-    }
-    clrScr();
-    drawBitmap(0,8, MysticFire.data, charWidth * MysticFire.width, charHeight * MysticFire.height);
-    drawBitmap(64, 8, Slam.data, charWidth*Slam.width, charHeight * Slam.height);
-    drawBitmap(0, 32 + 8, WingAttack.data, charWidth * WingAttack.width, charHeight * WingAttack.height);
-
-    if(i % 2 ) drawBitmap(64-16 + right * 64 ,8 + up * 32 , cursor.data, cursor.width, cursor.height);
-
-    }
-    */
     /*
     int i = 0;
     while(1) {
@@ -105,7 +111,6 @@ int main(void){
     drawSprite(0, 64-32, qminx.back);
     update();
     */
-    drawSprite(128-32,0,qminx.front);
-    drawBitmap(0,0, MysticFire.data, charWidth * MysticFire.width, charHeight* MysticFire.height);
-    update();
+    //drawSprite(128-32,0,qminx.front,32,32);
+    //drawBitmap(0,0, MysticFire.data, charWidth * MysticFire.width, charHeight* MysticFire.height);
 }

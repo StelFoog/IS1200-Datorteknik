@@ -16,6 +16,8 @@ typedef struct sprite {
 } sprite;
 
 
+const unsigned char startScreen[1024];
+
 const word cursor;
 
 const word MysticFire;

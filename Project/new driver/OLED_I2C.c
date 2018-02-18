@@ -120,15 +120,15 @@ void drawBitmap(int x, int y, unsigned char bitmap[], int sx, int sy)
 		}
 	}
 }
-void drawSprite(int x, int y, unsigned char bitmap[]){
+void drawSprite(int x, int y, unsigned char bitmap[], int sx, int sy){
   unsigned char data;
   int cx;
   int cy;
   int bit;
-  for(cx = 0; cx < 32; cx++){
-    for(cy= 0; cy < 32; cy++){
+  for(cx = 0; cx < sx; cx++){
+    for(cy= 0; cy < sy; cy++){
       bit = cy % 8;                       // Which bit of chunk that is chosen
-      data = bitmap[(cx * 4) + cy/8];     // Get the chunck
+      data = bitmap[(cx * (sy/8)) + cy/8];     // Get the chunck
       if((data & (0x80>>bit))>0)          // Choose correct bit of the chick
         setPixel(x+cx, y+cy);             // Set correct pixel
       else
