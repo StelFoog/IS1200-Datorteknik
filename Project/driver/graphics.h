@@ -14,5 +14,6 @@ const unsigned char startScreen[1024];
 const unsigned char cursor[8];
 
 const sprite qminx;
+const sprite temit;
 
 #endif
