@@ -4,9 +4,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define charWidth		6
-#define charHeight		8
-
 #include "OLED_I2C.h"
 #include "graphics.h"
 
@@ -71,11 +68,11 @@ int main(void){
           timeoutcount = 0;
         }
         clrScr();
-        drawBitmap(0,8, MysticFire.data, charWidth * MysticFire.width, charHeight * MysticFire.height);
-        drawBitmap(64, 8, Slam.data, charWidth*Slam.width, charHeight * Slam.height);
-        drawBitmap(0, 32 + 8, WingAttack.data, charWidth * WingAttack.width, charHeight * WingAttack.height);
+        DrawString("Mystic Fire", 0,8);
+        DrawString("Slam", 64,8);
+        DrawString("Wing Attack",0, 40);
 
-        if(i % 2 ) drawBitmap(64-16 + right * 64 ,8 + up * 32 , cursor.data, cursor.width, cursor.height);
+        if(i % 2 ) drawSprite(64-16 + right * 64 ,8 + up * 32 , cursor, 8, 8);
 
         }
       }
@@ -111,6 +108,4 @@ int main(void){
     drawSprite(0, 64-32, qminx.back);
     update();
     */
-    //drawSprite(128-32,0,qminx.front,32,32);
-    //drawBitmap(0,0, MysticFire.data, charWidth * MysticFire.width, charHeight* MysticFire.height);
 }

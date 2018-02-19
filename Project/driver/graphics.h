@@ -4,25 +4,14 @@ const unsigned char MysticFire[];*/
 #ifndef GRAPHICS_HEADER
 #define  GRAPHICS_HEADER
 
-typedef struct word {
-  int width;
-  int height;
-  unsigned char data[8*2*6];
-} word;
-
 typedef struct sprite {
-    unsigned char front[128];
-    unsigned char back[128];
+    const unsigned char front[128];
+    const unsigned char back[128];
 } sprite;
-
 
 const unsigned char startScreen[1024];
 
-const word cursor;
-
-const word MysticFire;
-const word Slam;
-const word WingAttack;
+const unsigned char cursor[8];
 
 const sprite qminx;
 

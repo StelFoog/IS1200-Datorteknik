@@ -11,27 +11,11 @@
 #define _I2CCON_PEN 2
 
 
-/*
-void _convert_float(char *buf, double num, int width, unsigned char prec)
-{
-	char format[10];
-
-	sprintf(format, "%%%i.%if", width, prec);
-	sprintf(buf, format, num);
-}
-*/
-
 inline void _waitForIdleBus() { while (I2C1CON & 0x1f) {} }
 
 void _initTWI()
 {
 	uint32_t	tpgd;
-
-/* Enable later
-	pinMode(SDA, OUTPUT);
-	digitalWrite(SDA, HIGH);
-*/
-
 	IFSCLR(0) = 0xE0000000;									// Clear Interrupt Flag
 	IECCLR(0) = 0xE0000000;									// Disable Interrupt
 	I2C1CONCLR = (1 << _I2CCON_ON);							// Disable I2C interface

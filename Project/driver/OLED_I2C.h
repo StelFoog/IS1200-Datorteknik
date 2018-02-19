@@ -1,6 +1,8 @@
 #ifndef OLED_I2C_h
 #define OLED_I2C_h
 
+#define charWidth		6
+#define charHeight		8
 
 #define SH1106_ADDR		0x3C
 
@@ -67,21 +69,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-/* _current_font not in use
-struct _current_font
-{
-	uint8_t* font;
-	uint8_t x_size;
-	uint8_t y_size;
-	uint8_t offset;
-	uint8_t numchars;
-	uint8_t inverted;
-};
-*/
-
-
-// OLED(uint8_t data_pin, uint8_t sclk_pin, uint8_t rst_pin);
-// OLED(uint8_t data_pin, uint8_t sclk_pin);
 void	begin();
 void	update();
 void  delay(unsigned int t);
@@ -91,25 +78,20 @@ void	fillScr();
 void	invert(bool mode);
 void	setPixel(uint16_t x, uint16_t y);
 void	clrPixel(uint16_t x, uint16_t y);
-void	invPixel(uint16_t x, uint16_t y);
-void	invertText(bool mode);
+
+void DrawChar(char c, uint8_t x, uint8_t y, uint8_t row);
+void DrawString(const char* str, uint8_t x, uint8_t y);
+void drawBitmap(uint8_t x, uint8_t y, const unsigned char * bitmap, uint8_t sx, uint8_t sy);
+void drawSprite(uint8_t x, uint8_t y, const unsigned char bitmap[], uint8_t sx, uint8_t sy);
+
 
 uint8_t			_scl_pin, _sda_pin;
-// _current_font	cfont;
 uint8_t			scrbuf[1024];
 
-void	_print_char(unsigned char c, int x, int row);
-void	_convert_float(char *buf, double num, int width, unsigned char prec); // byte = unsigned char
 
 void	_initTWI();
 void	_sendTWIstart();
 void	_sendTWIstop();
 void	_sendTWIcommand(uint8_t value);
-void	_sendStart(unsigned char addr); // byte = unsigned char
-void	_sendStop();
-void	_sendAck();
-void	_sendNack();
-void	_waitForAck();
-void	_writeByte(uint8_t value);
 
 #endif
