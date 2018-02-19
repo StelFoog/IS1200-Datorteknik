@@ -3,7 +3,6 @@
 #define __sbi(reg, bitmask) (*(reg + 2)) = bitmask
 #define pulseClock digitalWrite(SCK_Pin, LOW); digitalWrite(SCK_Pin, HIGH)
 
-#define fontbyte(x) cfont.font[x]  
 #define bitmapbyte(x) bitmap[x]
 
 #define PROGMEM
@@ -15,4 +14,3 @@
 #ifndef TWI_FREQ
 	#define TWI_FREQ 400000L
 #endif
-

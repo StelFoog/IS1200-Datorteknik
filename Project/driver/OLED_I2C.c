@@ -1,6 +1,7 @@
 #include "OLED_I2C.h"
 #include "pic32mx.h"  /* Declarations of system-specific addresses etc */
 
+#include "font.h"
 // #pragma message("Compiling for PIC32 Architecture...") Yes we know...
 #include "pic32/HW_PIC32.h"
 
@@ -103,36 +104,55 @@ void invert(bool mode)
 		_sendTWIcommand(SH1106_NORMAL_DISPLAY);
 }
 
-void drawBitmap(int x, int y, unsigned char bitmap[], int sx, int sy)
-{
-	int bit;
-	unsigned char data; // byte = unsigned char
-  int cy;
-	for (cy=0; cy<sy; cy++) {
-	  bit = cy % 8;
-    int cx;
-		for(cx=0; cx<sx; cx++) {
-      data = bitmap[cx+((cy/8)*sx)];
-      if ((data & (1<<bit))>0)
-				setPixel(x+cx, y+cy);
-			else
-				clrPixel(x+cx, y+cy);
-		}
-	}
-}
-void drawSprite(int x, int y, unsigned char bitmap[], int sx, int sy){
+void drawSprite(uint8_t x, uint8_t y, const unsigned char bitmap[], uint8_t sx, uint8_t sy){
   unsigned char data;
-  int cx;
-  int cy;
-  int bit;
+  uint8_t cx, cy, bit;
   for(cx = 0; cx < sx; cx++){
     for(cy= 0; cy < sy; cy++){
-      bit = cy % 8;                       // Which bit of chunk that is chosen
-      data = bitmap[(cx * (sy/8)) + cy/8];     // Get the chunck
-      if((data & (0x80>>bit))>0)          // Choose correct bit of the chick
-        setPixel(x+cx, y+cy);             // Set correct pixel
+      bit = cy % 8;                           // Which bit of chunk that is chosen
+      data = bitmap[(cx * (sy/8)) + cy/8];    // Get the chunck
+      if((data & (0x80>>bit))>0)              // Choose correct bit of the chick
+        setPixel(x+cx, y+cy);                 // Set correct pixel
       else
         clrPixel(x+cx, y+cy);
     }
   }
+}
+
+void DrawChar(char c, uint8_t x, uint8_t y, uint8_t row) {
+    uint8_t cy,cx;
+    unsigned char data;
+    // Convert the character to an index
+    c = c & 0x7F;
+    if (c < ' ') {
+        c = 0;
+    } else {
+        c -= ' ';
+    }
+    // 'font' is a multidimensional array of [96][char_width]
+    // which is really just a 1D array of size 96*char_width.
+    // Draw pixels
+    for (cx=0; cx<charWidth; cx++) {
+      data = font[c][cx];
+        for (cy=0; cy<charHeight; cy++) {
+            if (data & (1<<cy))
+              setPixel(x+cx , y+cy + row * 8);
+            else
+              clrPixel(x+cx, y+cy + row * 8);
+        }
+    }
+}
+
+void DrawString(const char* str, uint8_t x, uint8_t y) {
+    uint8_t row = 0;
+    uint8_t cache = x;
+    while (*str) {
+        DrawChar(*str++, x, y, row);
+        x += charWidth;
+        if(*str == ' '){
+          row++;
+          x = cache;
+          *str++;
+        }
+    }
 }
