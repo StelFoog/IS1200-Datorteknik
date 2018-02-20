@@ -1,16 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+//#include <math.h>
 #include <string.h>
-#include <time.h>
+//#include <time.h>
+#include <pic32mx.h>
 #include "main.h"
 #include "battle.h"
 #include "flags.h"
+#include "io.h"
+#include "driver/graphics.h"
+#include "driver/OLED_I2C.h"
+
+unsigned char timeoutcount = 0;
+
+unsigned int randImplemented (void)
+{
+   static unsigned int z1 = 12345, z2 = 12345, z3 = 12345, z4 = 12345;
+   unsigned int b;
+   b  = ((z1 << 6) ^ z1) >> 13;
+   z1 = ((z1 & 4294967294U) << 18) ^ b;
+   b  = ((z2 << 2) ^ z2) >> 27;
+   z2 = ((z2 & 4294967288U) << 2) ^ b;
+   b  = ((z3 << 13) ^ z3) >> 21;
+   z3 = ((z3 & 4294967280U) << 7) ^ b;
+   b  = ((z4 << 3) ^ z4) >> 12;
+   z4 = ((z4 & 4294967168U) << 13) ^ b;
+   return (z1 ^ z2 ^ z3 ^ z4);
+}
 
     // calculates the final stat value for one stat
 unsigned short statCalc(int base, char level, char hp) {
-    char iv = rand() % 16; // random IV between 0 and 15
-    short stat = floor((double) (2 * base + iv + 22) * level / 100);
+    //char iv = 8;
+    char iv = randImplemented() % 16; // random IV between 0 and 15
+    //short stat = floor((double) (2 * base + iv + 22) * level / 100);
+    short stat = (2 * base + iv + 22) * level / 100;
     if(hp) {
         stat += level + 10;
     } else {
@@ -25,12 +48,14 @@ int statTotal(pokemonStruct pkmn) {
 }
     // transfers pokemonStruct to battlePokemon
 void importPokemon(battlePokemon *pokemon, pokemonStruct pkmn) {
+    int i;
     (*pokemon).pokemonType1 = pkmn.pokemonType1;
     (*pokemon).pokemonType2 = pkmn.pokemonType2;
-    for(int i = 0; i < MOVEAMOUNT; i++) {
+    for(i = 0; i < MOVEAMOUNT; i++) {
         (*pokemon).moveset[i] = pkmn.moveset[i];
     }
-    (*pokemon).level = (rand() % 10) + 45;
+    //(*pokemon).level = (rand() % 10) + 45;
+    (*pokemon).level = 50;
     (*pokemon).hp = statCalc(pkmn.baseHp, (*pokemon).level, 1);
     (*pokemon).speed = statCalc(pkmn.baseSpeed, (*pokemon).level, 0);
     (*pokemon).pyAtk = statCalc(pkmn.basePyAtk, (*pokemon).level, 0);
@@ -42,74 +67,121 @@ void importPokemon(battlePokemon *pokemon, pokemonStruct pkmn) {
     (*pokemon).pyDefStage = 0;
     (*pokemon).spAtkStage = 0;
     (*pokemon).spDefStage = 0;
+    (*pokemon).sprite = pkmn.sprite;
 }
     // prints all the final stats
 void printStats(battlePokemon pokemon) {
-    printf("Level: %4d\n", pokemon.level);
-    printf("HP:    %4d\n", pokemon.hp);
-    printf("Speed: %4d\n", pokemon.speed);
-    printf("PyAtk: %4d\n", pokemon.pyAtk);
-    printf("PyDef: %4d\n", pokemon.pyDef);
-    printf("SpAtk: %4d\n", pokemon.spAtk);
-    printf("SpDef: %4d\n", pokemon.spDef);
-    printf("Speed Stage: %4hhi\n", pokemon.speedStage);
-    printf("PyAtk Stage: %4hhi\n", pokemon.pyAtkStage);
-    printf("PyDef Stage: %4hhi\n", pokemon.pyDefStage);
-    printf("SpAtk Stage: %4hhi\n", pokemon.spAtkStage);
-    printf("SpDef Stage: %4hhi\n", pokemon.spDefStage);
+    //printf("Level: %4d\n", pokemon.level);
+    //printf("HP:    %4d\n", pokemon.hp);
+    //printf("Speed: %4d\n", pokemon.speed);
+    //printf("PyAtk: %4d\n", pokemon.pyAtk);
+    //printf("PyDef: %4d\n", pokemon.pyDef);
+    //printf("SpAtk: %4d\n", pokemon.spAtk);
+    //printf("SpDef: %4d\n", pokemon.spDef);
+    //printf("Speed Stage: %4hhi\n", pokemon.speedStage);
+    //printf("PyAtk Stage: %4hhi\n", pokemon.pyAtkStage);
+    //printf("PyDef Stage: %4hhi\n", pokemon.pyDefStage);
+    //printf("SpAtk Stage: %4hhi\n", pokemon.spAtkStage);
+    //printf("SpDef Stage: %4hhi\n", pokemon.spDefStage);
+}
+
+unsigned char moveSelect(battlePokemon pokemon) {
+    signed char selected = 0, cursorBlink = 0, buttonCheck = 1;
+    while(1) {
+        update();
+        if(getBtns() && buttonCheck) {
+            buttonCheck = 0;
+            if(getBtns() == (1 << 0)) {
+                selected++;
+            }
+            if(getBtns() == (1 << 1)) {
+                selected--;
+            }
+            if(getBtns() == (1 << 2)) {
+                return selected;
+            }
+        }
+
+        if(selected > 3) {
+            selected = 0;
+        } else if(selected < 0) {
+            selected = 3;
+        }
+
+        if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+          timeoutcount++;           // Increment timeoutcount
+          IFSCLR(0) = 0x100;        //Reset the timeout flag
+        }
+        if(timeoutcount == 5){      // If timeoutcount is 5
+          buttonCheck = 1;
+          cursorBlink++;
+          timeoutcount = 0;
+        }
+
+        clrScr();
+        DrawString(pokemon.moveset[0].name, (0 + 0), (8 + 0));
+        DrawString(pokemon.moveset[1].name, (0 + 64), (8 + 0));
+        DrawString(pokemon.moveset[2].name, (0 + 0), (0 + 40));
+
+        if(cursorBlink % 2) {
+            switch (selected) {
+                case 0:
+                    drawSprite(64-16, 8 + 0, cursor, 8, 8);
+                    break;
+                case 1:
+                    drawSprite(128-16, 8 + 0, cursor, 8, 8);
+                    break;
+                case 2:
+                    drawSprite(64-16, 8 + 32, cursor, 8, 8);
+                    break;
+                case 3:
+                    drawSprite(128-16, 8 + 32, cursor, 8, 8);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 int main(int argc, char const *argv[]) {
-    srand(time(NULL));
-
+    //srand(time(NULL));
     // all moves
-    const moveStruct protect =      {1, normal, 0, 100, 0x25, "protect"};
-    const moveStruct mysticFire =   {0, fire, 65, 100, 0x10, "mysticFire"};
-    const moveStruct slam =         {0, normal, 80, 75, 0x00, "slam"};
-    const moveStruct quickAttack =  {0, normal, 40, 100, 0x01, "quickAttack"};
-    const moveStruct wingAttack =   {0, flying, 60, 100, 0x00, "wingAttack"};
-    const moveStruct airCutter =    {0, flying, 60, 95, 0x10, "airCutter"};
-    const moveStruct leafBlade =    {0, grass, 85, 95, 0x00, "leafBlade"};
-    const moveStruct mudBomb =      {0, ground, 75, 85, 0x10, "mudBomb"};
-    const moveStruct curse =        {2, null, 0, 100, 0x20, "curse"};
-
+    const moveStruct protect =      {1, normal, 0, 100, 0x25, "Protect"};
+    const moveStruct mysticFire =   {0, fire, 65, 100, 0x10, "Mystic Fire"};
+    const moveStruct slam =         {0, normal, 80, 75, 0x00, "Slam"};
+    const moveStruct quickAttack =  {0, normal, 40, 100, 0x01, "Quick Attack"};
+    const moveStruct wingAttack =   {0, flying, 60, 100, 0x00, "Wing Attack"};
+    const moveStruct airCutter =    {0, flying, 60, 95, 0x10, "Air Cutter"};
+    const moveStruct leafBlade =    {0, grass, 85, 95, 0x00, "Leaf Blade"};
+    const moveStruct mudBomb =      {0, ground, 75, 85, 0x10, "Mud Bomb"};
+    const moveStruct curse =        {2, null, 0, 100, 0x20, "Curse"};
     // all pokemon
-    const pokemonStruct charizord = {fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85};
-    const pokemonStruct grassGround = {grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82};
-    const pokemonStruct qminx = {grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138};
+    //const pokemonStruct charizord = {fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85};
+    const pokemonStruct grassGround = {grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
+    const pokemonStruct qminx = {grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
-    /*
-    printf("Stat Total Charizord: %d\n", statTotal(charizord));
-    printf("Stat Total Gg: %d\n", statTotal(grassGround));
-    printf("Stat Total Qminx: %d\n", statTotal(qminx));
-    */
+
+    init();
+    while(!(getBtns())){
+        randImplemented();
+    }
+
     battlePokemon pokemon1, pokemon2;
-    importPokemon(&pokemon1, charizord);
+    importPokemon(&pokemon1, grassGround);
     importPokemon(&pokemon2, qminx);
 
-    printf("pkmn1:\n");
-    printStats(pokemon1);
-    printf("pkmn2:\n");
-    printStats(pokemon2);
-    printf("\n");
-    for(int i = 0; i < 3; i++) {
-        battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[2], &pokemon2.moveset[1]);
-        printf("pkmn1:\n");
-        printStats(pokemon1);
-        printf("pkmn2:\n");
-        printStats(pokemon2);
-        printf("\n");
+    unsigned char moveIndex1, moveIndex2;
+    while(1) {
+        moveIndex1 = moveSelect(pokemon1);
+        moveIndex2 = moveSelect(pokemon2);
+        battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
         if(pokemon1.hp <= 0) {
             break;
         } else if(pokemon2.hp <= 0) {
             break;
         }
     }
-    battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[2], &pokemon2.moveset[0]);
-    battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[2], &pokemon2.moveset[0]);
-    /*
-    printf("%lu\n", sizeof(moveStruct));
-    printf("%lu\n", sizeof(battlePokemon));
-    */
+
     return 0;
 }

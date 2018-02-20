@@ -25,8 +25,8 @@ void init(){
 }
 
 char battleSelect(){
-  char cursorBlink, down, right, buttonCheck = 1, selected = 0;
-  while(1){
+    char cursorBlink, down, right, buttonCheck = 1, selected = 0;
+    while(1){
     update();
     if(getbtns() && buttonCheck){
       buttonCheck = 0;
@@ -34,14 +34,23 @@ char battleSelect(){
       if(getbtns() & 0x2) selected -= 1;
       if(getbtns() & 0x4) return selected;
     }
-    if(selected > 3) selected = 0;
-    else if(selected < 0) selected = 3;
+    if(selected > 3) {
+        selected = 0;
+    } else if(selected < 0) {
+        selected = 3;
+    }
 
-    if(selected > 1) down = 1;
-    else down = 0;
+    if(selected > 1) {
+        down = 1;
+    } else {
+        down = 0;
+    }
 
-    if(selected % 2) right = 1;
-    else right = 0;
+    if(selected % 2) {
+        right = 1;
+    } else {
+        right = 0;
+    }
 
     if(IFS(0) & 0x100){         // check if interrupt flag is enabled
       timeoutcount++;           // Increment timeoutcount
@@ -56,7 +65,9 @@ char battleSelect(){
     DrawString("Mystic Fire", 0,8);
     DrawString("Slam", 64,8);
     DrawString("Wing Attack",0, 40);
-    if(cursorBlink % 2 ) drawSprite(64-16 + right * 64 , 8 + down * 32 , cursor, 8, 8);
+    if(cursorBlink % 2) {
+        drawSprite(64-16 + right * 64 , 8 + down * 32 , cursor, 8, 8);
+    }
   }
 }
 

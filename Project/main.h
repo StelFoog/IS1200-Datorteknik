@@ -3,8 +3,9 @@
 
 #define MOVEAMOUNT 3 // amount of moves in a moveset
 
+#include "driver/graphics.h"
     // all types
-typedef enum type{          null,
+typedef enum type{ null,
     normal,     fire,       water,      grass,
     ground,     flying,     ice,        electric,
 } type;
@@ -30,6 +31,7 @@ typedef struct pokemonStruct{
     unsigned char basePyDef;
     unsigned char baseSpAtk;
     unsigned char baseSpDef;
+    const sprite *sprite;
 } pokemonStruct; // size of pokemonStruct is 104 byte
 
     // struct for the two pokemon in battle
@@ -50,6 +52,7 @@ typedef struct battlePokemon{
     signed char spAtkStage;
     signed char spDefStage;
     unsigned char flag;
+    const sprite *sprite;
 } battlePokemon; // size of battlePokemon is 112 byte
 
 #endif

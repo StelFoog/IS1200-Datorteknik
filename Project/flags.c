@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
-#include "battle.h"
 #include "flags.h"
 
 char getFlag(unsigned char flagID, battlePokemon pokemon) {

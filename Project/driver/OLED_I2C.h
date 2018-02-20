@@ -1,5 +1,5 @@
-#ifndef OLED_I2C_h
-#define OLED_I2C_h
+#ifndef HEADER_OLED_I2C
+#define HEADER_OLED_I2C
 
 #define charWidth		6
 #define charHeight		8

@@ -4,6 +4,7 @@
 #include "main.h"
 #include "battle.h"
 #include "flags.h"
+#include "io.h"
 
     // returns damage dealt with the given variables
 unsigned int damageCalc(unsigned char level, unsigned char basePow, unsigned short atk, unsigned short def, unsigned char stab, unsigned short typeMod) {
@@ -14,14 +15,16 @@ unsigned int damageCalc(unsigned char level, unsigned char basePow, unsigned sho
     result = (result * stab * typeMod) / 1000;
 
     if(typeMod > 100) {
-        printf("It's super effective!\n");
+        //printf("It's super effective!\n");
     } else if(typeMod == 0) {
-        printf("It doesn't affect the opposing pokemon!\n");
+        //printf("It doesn't affect the opposing pokemon!\n");
     } else if(typeMod < 100) {
-        printf("It's not very effective...\n");
+        //printf("It's not very effective...\n");
     }
-    printf("Dealt %d damage\n", ((unsigned int) ceil(result)));
-    return ((unsigned int) ceil(result));
+    //printf("Dealt %d damage\n", ((unsigned int) ceil(result)));
+    //return ((unsigned int) ceil(result));
+    result++;
+    return (unsigned int) result;
 }
 
     // returns typechart value * 10
@@ -217,7 +220,7 @@ double getStageBuff(signed char stage) {
     } else {
         returnValue = (double) 2 / (2 + (stage * -1));
     }
-    //printf("%f\n", returnValue);
+    ////printf("%f\n", returnValue);
     return returnValue;
 }
 
@@ -242,46 +245,48 @@ void attackExec(moveStruct *move, battlePokemon *atkPokemon, battlePokemon *defP
             def = (*defPokemon).spDef * getStageBuff((*defPokemon).spDefStage);
         } else {                        // if physical
             atk = (*atkPokemon).pyAtk * getStageBuff((*atkPokemon).pyAtkStage);
-            printf("atk stage: %f\n", getStageBuff((*atkPokemon).pyAtkStage));
+            //printf("atk stage: %f\n", getStageBuff((*atkPokemon).pyAtkStage));
             def = (*defPokemon).pyDef * getStageBuff((*defPokemon).pyDefStage);
-            printf("def stage: %f\n", getStageBuff((*defPokemon).pyDefStage));
+            //printf("def stage: %f\n", getStageBuff((*defPokemon).pyDefStage));
         }
-        if((*move).accuracy > (rand() % 100)) { // attack hit
-            //printf("%d\n", damageCalc((*atkPokemon).level, move.power, atk, def, stab(move, (*atkPokemon)), typeMod(move, (*defPokemon))));
+        if((*move).accuracy > (randImplemented() % 100)) { // attack hit
+            ////printf("%d\n", damageCalc((*atkPokemon).level, move.power, atk, def, stab(move, (*atkPokemon)), typeMod(move, (*defPokemon))));
             (*defPokemon).hp -= damageCalc((*atkPokemon).level, (*move).power, atk, def, stab((*move), (*atkPokemon)), typeMod((*move), (*defPokemon)));
             if((*defPokemon).hp > 60000) { // sets HP to 0 if overflow has occured
                 (*defPokemon).hp = 0;
             }
         } else { // attack missed
-            printf("The attack missed! o.o\n");
+            //printf("The attack missed! o.o\n");
         }
     }
     else {
         switch((*move).moveEffectID) {
             case 1:
-                printf("Used protect.\n");
+                //printf("Used protect.\n");
                 if(((*move).phySpecPrio >> 6) > 0) {
-                    printf("But it failed!\n");
+                    //printf("But it failed!\n");
                 } else {
                     (*move).phySpecPrio = (*move).phySpecPrio | (2 << 6);
                     setFlag(protectID, atkPokemon);
                 }
                 break;
             case 2:
-                printf("Used curse.\n");
+                //printf("Used curse.\n");
                 setStageBuff(&(*atkPokemon).speedStage, -1);
                 setStageBuff(&(*atkPokemon).pyAtkStage, +1);
                 setStageBuff(&(*atkPokemon).pyDefStage, +1);
                 break;
             default:
-                printf("Moveset error\n");
+                //printf("Moveset error\n");
+                break;
         }
     }
 }
 
     // lowers the flag count of all moves on a pokemon
 void moveFlagReset(battlePokemon *pkmn) {
-    for(int i = 0; i < MOVEAMOUNT; i++) {
+    int i;
+    for(i = 0; i < MOVEAMOUNT; i++) {
         if(((*pkmn).moveset[i].phySpecPrio >> 6)) {
             (*pkmn).moveset[i].phySpecPrio = ((*pkmn).moveset[i].phySpecPrio & 0x3f) | ((((*pkmn).moveset[i].phySpecPrio >> 6) - 1) << 6);
         }
@@ -291,30 +296,30 @@ void moveFlagReset(battlePokemon *pkmn) {
     // one turn of battle
 void battlePhase(battlePokemon *pokemon1, battlePokemon *pokemon2, moveStruct *move1, moveStruct *move2) {
     if(priority(*move1, *move2, *pokemon1, *pokemon2)) { // checks priority
-        printf("pokemon 2 used %s\n", (*move2).name);
+        //printf("pokemon 2 used %s\n", (*move2).name);
         attackExec(move2, pokemon2, pokemon1);
-        printf("\n");
+        //printf("\n");
         if((*pokemon1).hp > 0) { // checks for faint
-            printf("pokemon 1 used %s\n", (*move1).name);
+            //printf("pokemon 1 used %s\n", (*move1).name);
             if(getFlag(protectID, *pokemon2)) {
-                printf("Didn't break through protect\n");
+                //printf("Didn't break through protect\n");
             } else {
                 attackExec(move1, pokemon1, pokemon2);
             }
-            printf("\n");
+            //printf("\n");
         }
     } else {
-        printf("pokemon 1 used %s\n", (*move1).name);
+        //printf("pokemon 1 used %s\n", (*move1).name);
         attackExec(move1, pokemon1, pokemon2);
-        printf("\n");
+        //printf("\n");
         if((*pokemon2).hp > 0) { // checks for faint
-            printf("pokemon 2 used %s\n", (*move2).name);
+            //printf("pokemon 2 used %s\n", (*move2).name);
             if(getFlag(protectID, *pokemon1)) {
-                printf("Didn't break through protect\n");
+                //printf("Didn't break through protect\n");
             } else {
                 attackExec(move2, pokemon2, pokemon1);
             }
-            printf("\n");
+            //printf("\n");
         }
     }
     clrAllFlags(pokemon1);
