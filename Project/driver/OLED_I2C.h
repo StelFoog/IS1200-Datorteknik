@@ -66,7 +66,6 @@
 #define SH1106_SET_VCOM_DESELECT						0xDB
 
 #include "pic32/HW_PIC32_defines.h"
-#include <stdbool.h>
 #include <stdint.h>
 
 void	begin();
@@ -74,7 +73,7 @@ void	update();
 void  delay(unsigned int t);
 void	setBrightness(uint8_t value);
 void	clrScr();
-void	invert(bool mode);
+void	invert(char mode);
 void	setPixel(uint16_t x, uint16_t y);
 void	clrPixel(uint16_t x, uint16_t y);
 

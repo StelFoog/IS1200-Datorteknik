@@ -144,9 +144,10 @@ unsigned char moveSelect(battlePokemon pokemon) {
     }
 }
 
-int main(int argc, char const *argv[]) {
+int main(void) {
     //srand(time(NULL));
     // all moves
+
     const moveStruct protect =      {1, normal, 0, 100, 0x25, "Protect"};
     const moveStruct mysticFire =   {0, fire, 65, 100, 0x10, "Mystic Fire"};
     const moveStruct slam =         {0, normal, 80, 75, 0x00, "Slam"};
@@ -182,6 +183,8 @@ int main(int argc, char const *argv[]) {
             break;
         }
     }
-
+    clrScr();
+    drawSprite(0,0,startScreen,128, 64);
+    update();
     return 0;
 }
