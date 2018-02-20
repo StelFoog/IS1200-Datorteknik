@@ -71,7 +71,6 @@ void setPixel(uint16_t x, uint16_t y)
 	{
 		by = ((y/8)*128)+x;
 		bi = y % 8;
-
 		scrbuf[by]=scrbuf[by] | (1<<bi);
 	}
 }
@@ -79,7 +78,6 @@ void setPixel(uint16_t x, uint16_t y)
 void clrPixel(uint16_t x, uint16_t y)
 {
 	int by, bi;
-
 	if ((x>=0) && (x<128) && (y>=0) && (y<64))
 	{
 		by=((y/8)*128)+x;
@@ -88,9 +86,9 @@ void clrPixel(uint16_t x, uint16_t y)
 	}
 }
 
-void invert(bool mode)
+void invert(char mode)
 {
-	if (mode==true)
+	if (mode)
 		_sendTWIcommand(SH1106_INVERT_DISPLAY);
 	else
 		_sendTWIcommand(SH1106_NORMAL_DISPLAY);

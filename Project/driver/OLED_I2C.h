@@ -45,9 +45,9 @@
 #define SH1106_ACTIVATE_SCROLL							0x2F
 #define SH1106_SET_VERTICAL_SCROLL_AREA				0xA3
 // Addressing Setting Commands
-#define SH1106_SET_LOWER_COLUMN						0x02 //Starts at 2 for some reason
+#define SH1106_SET_LOWER_COLUMN						0x02     //Starts at 2 for some reason
 #define SH1106_SET_HIGHER_COLUMN						0x10
-#define SH1106_SETSTARTPAGE               0xB0 // For some reason page start at 0xB0
+#define SH1106_SETSTARTPAGE               0xB0     // For some reason page start at 0xB0
 #define SH1106_MEMORY_ADDR_MODE						0x20
 #define SH1106_SET_COLUMN_ADDR							0x21
 #define SH1106_SET_PAGE_ADDR							0x22
