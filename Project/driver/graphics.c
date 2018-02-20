@@ -10,6 +10,7 @@ const unsigned char cursor[8] = {
   0x24,
   0x3c
 };
+
 const sprite qminx = {
     {
       0x00, 0x00, 0x00, 0x00,

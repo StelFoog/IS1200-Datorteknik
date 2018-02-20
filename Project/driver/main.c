@@ -1,5 +1,3 @@
-
-
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include <stdint.h>
 #include <stdbool.h>
