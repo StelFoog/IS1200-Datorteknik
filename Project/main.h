@@ -11,16 +11,16 @@ typedef enum type{          null,
 
     // struct for all moves
 typedef struct moveStruct {
-    char name[20];
+    unsigned char moveEffectID;
     type attackType;
     unsigned char power;
     unsigned char accuracy;
     unsigned char phySpecPrio;
-}  moveStruct;
+    char name[16];
+}  moveStruct; // size of moveStruct is 24 byte
 
     // struct for all possible to choose from pokemon
 typedef struct pokemonStruct{
-    char name[15];
     type pokemonType1;
     type pokemonType2;
     moveStruct moveset[MOVEAMOUNT];
@@ -30,11 +30,10 @@ typedef struct pokemonStruct{
     unsigned char basePyDef;
     unsigned char baseSpAtk;
     unsigned char baseSpDef;
-} pokemonStruct;
+} pokemonStruct; // size of pokemonStruct is 104 byte
 
     // struct for the two pokemon in battle
 typedef struct battlePokemon{
-    char name[16];
     type pokemonType1;
     type pokemonType2;
     moveStruct moveset[MOVEAMOUNT];
@@ -45,6 +44,12 @@ typedef struct battlePokemon{
     unsigned short pyDef;
     unsigned short spAtk;
     unsigned short spDef;
-} battlePokemon;
+    signed char speedStage;
+    signed char pyAtkStage;
+    signed char pyDefStage;
+    signed char spAtkStage;
+    signed char spDefStage;
+    unsigned char flag;
+} battlePokemon; // size of battlePokemon is 112 byte
 
 #endif
