@@ -74,7 +74,6 @@ void	update();
 void  delay(unsigned int t);
 void	setBrightness(uint8_t value);
 void	clrScr();
-void	fillScr();
 void	invert(bool mode);
 void	setPixel(uint16_t x, uint16_t y);
 void	clrPixel(uint16_t x, uint16_t y);
@@ -83,12 +82,8 @@ void DrawChar(char c, uint8_t x, uint8_t y, uint8_t row);
 void DrawString(const char* str, uint8_t x, uint8_t y);
 void drawBitmap(uint8_t x, uint8_t y, const unsigned char * bitmap, uint8_t sx, uint8_t sy);
 void drawSprite(uint8_t x, uint8_t y, const unsigned char bitmap[], uint8_t sx, uint8_t sy);
-
-
 uint8_t			_scl_pin, _sda_pin;
 uint8_t			scrbuf[1024];
-
-
 void	_initTWI();
 void	_sendTWIstart();
 void	_sendTWIstop();

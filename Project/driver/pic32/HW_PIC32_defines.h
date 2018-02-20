@@ -1,8 +1,4 @@
 // *** Hardwarespecific defines ***
-#define __cbi(reg, bitmask) (*(reg + 1)) = bitmask
-#define __sbi(reg, bitmask) (*(reg + 2)) = bitmask
-#define pulseClock digitalWrite(SCK_Pin, LOW); digitalWrite(SCK_Pin, HIGH)
-
 #define bitmapbyte(x) bitmap[x]
 
 #define PROGMEM

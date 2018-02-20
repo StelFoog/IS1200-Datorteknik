@@ -32,7 +32,7 @@ char battleSelect(){
       buttonCheck = 0;
       if(getbtns() & 0x1) selected += 1;
       if(getbtns() & 0x2) selected -= 1;
-      if(getbtns() && 0x4) return selected;
+      if(getbtns() & 0x4) return selected;
     }
     if(selected > 3) selected = 0;
     else if(selected < 0) selected = 3;
@@ -60,12 +60,27 @@ char battleSelect(){
   }
 }
 
+void printSprite(){
+  drawSprite(32*3,0,temit.front,32,32);
+  drawSprite(0,32,qminx.back,32,32);
+  update();
+  delay(1000);
+  invert(true);
+  delay(5000);
+  invert(false);
+}
+
 int main(void){
   init();
+  setBrightness(100);
   while(1){
     if(getbtns()){
-      clrScr();
-      char selected move  = battleSelect();
+      while(1){
+        clrScr();
+        char move  = battleSelect();
+        clrScr();
+        printSprite();
+      }
     }
   }
 }
