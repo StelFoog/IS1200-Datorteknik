@@ -57,14 +57,6 @@ void clrScr(){
   }
 }
 
-void fillScr()
-{
-  int i;
-  for(i=0;i<1024;i++){
-    scrbuf[i] = 255;
-  }
-}
-
 void setBrightness(uint8_t value)
 {
 	_sendTWIcommand(SH1106_SET_CONTRAST_CONTROL);
