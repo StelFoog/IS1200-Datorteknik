@@ -82,7 +82,7 @@ void printStats(battlePokemon pokemon) {
     //printf("SpDef Stage: %4hhi\n", pokemon.spDefStage);
 }
 
-unsigned char moveSelect(battlePokemon pokemon) {
+unsigned char moveSelect(battlePokemon * pokemon) {
     unsigned char timeoutcount = 0, cursorBlink = 0, buttonCheck = 1;;
     signed char selected = 0;
     while(1) {
@@ -117,9 +117,9 @@ unsigned char moveSelect(battlePokemon pokemon) {
         }
 
         clrScr();
-        drawMoves(pokemon.moveset[0].name, (0 + 0), (8 + 0));
-        drawMoves(pokemon.moveset[1].name, (0 + 64), (8 + 0));
-        drawMoves(pokemon.moveset[2].name, (0 + 0), (0 + 40));
+        drawMoves(pokemon->moveset[0].name, (0 + 0), (8 + 0));
+        drawMoves(pokemon->moveset[1].name, (0 + 64), (8 + 0));
+        drawMoves(pokemon->moveset[2].name, (0 + 0), (0 + 40));
 
         if(cursorBlink % 2) {
             switch (selected) {
@@ -348,16 +348,16 @@ int main(void) {
         clrScr();
         while(getBtns());
         delay(3);
-        moveIndex1 = moveSelect(pokemon1);
+        moveIndex1 = moveSelect(&pokemon1);
         while(getBtns());
         delay(3);
-        moveIndex2 = moveSelect(pokemon2);
+        moveIndex2 = moveSelect(&pokemon2);
         battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
         timeoutcount = 0;
         while (timeoutcount < 10)  {
             clrScr();
-            drawSprite(96, 0, (*(pokemon2.sprite)).front, 32, 32);
-            drawSprite(0, 32, (*(pokemon1.sprite)).back, 32, 32);
+            drawSprite(96, 0, pokemon2.sprite->front, 32, 32);
+            drawSprite(0, 32, pokemon1.sprite->back, 32, 32);
             update();
             if(IFS(0) & 0x100){         // check if interrupt flag is enabled
               timeoutcount++;           // Increment timeoutcount
