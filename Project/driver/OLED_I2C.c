@@ -125,7 +125,7 @@ void DrawChar(char c, uint8_t x, uint8_t y, uint8_t row) {
     }
 }
 
-void DrawString2(const char* str, uint8_t x, uint8_t y) {
+void drawString(const char* str, uint8_t x, uint8_t y) {
     uint8_t cache = x;
     while (*str) {
         DrawChar(*str++, x, y, row);
@@ -134,7 +134,7 @@ void DrawString2(const char* str, uint8_t x, uint8_t y) {
 }
 
 
-void DrawString(const char* str, uint8_t x, uint8_t y) {
+void drawMoves(const char* str, uint8_t x, uint8_t y) {
     uint8_t row = 0;
     uint8_t cache = x;
     while (*str) {
