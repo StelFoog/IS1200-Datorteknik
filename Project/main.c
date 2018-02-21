@@ -117,6 +117,9 @@ unsigned char moveSelect(battlePokemon pokemon) {
         }
 
         clrScr();
+        drawMoves(pokemon.moveset[0].name, (0 + 0), (8 + 0));
+        drawMoves(pokemon.moveset[1].name, (0 + 64), (8 + 0));
+        drawMoves(pokemon.moveset[2].name, (0 + 0), (0 + 40));
 
         if(cursorBlink % 2) {
             switch (selected) {
@@ -260,6 +263,7 @@ int main(void) {
             break;
         } else if(pokemon2.hp == 0) {
             clrScr();
+            drawString("Player 1 won!", 8, 20);
             update();
             break;
         }
