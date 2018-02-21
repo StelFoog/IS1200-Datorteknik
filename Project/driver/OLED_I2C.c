@@ -128,7 +128,7 @@ void DrawChar(char c, uint8_t x, uint8_t y, uint8_t row) {
 void drawString(const char* str, uint8_t x, uint8_t y) {
     uint8_t cache = x;
     while (*str) {
-        DrawChar(*str++, x, y, row);
+        DrawChar(*str++, x, y, 0);
         x += charWidth;
     }
 }

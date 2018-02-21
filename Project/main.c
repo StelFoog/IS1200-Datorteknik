@@ -83,8 +83,8 @@ void printStats(battlePokemon pokemon) {
 }
 
 unsigned char moveSelect(battlePokemon pokemon) {
-    unsigned char timeoutcount = 0;
-    signed char selected = 0, cursorBlink = 0, buttonCheck = 1;
+    unsigned char timeoutcount = 0, cursorBlink = 0, buttonCheck = 1;;
+    signed char selected = 0;
     while(1) {
         update();
         if(getBtns() && buttonCheck) {
@@ -142,7 +142,17 @@ unsigned char moveSelect(battlePokemon pokemon) {
     }
 }
 
-void hpString(char *str[], unsigned short hp, unsigned char curleng) {
+void delay(unsigned char n) {
+    unsigned char timeoutcount = 0;
+    while(timeoutcount < n) {
+        if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+            timeoutcount++;           // Increment timeoutcount
+            IFSCLR(0) = 0x100;        //Reset the timeout flag
+        }
+    }
+}
+
+char * hpString(char str[], unsigned short hp, unsigned char curleng) {
     unsigned char thousand = 0, hundred = 0, ten = 0, one = 0;
     while(1) {
         if(hp < 1000) {
@@ -180,20 +190,45 @@ void hpString(char *str[], unsigned short hp, unsigned char curleng) {
     hundred += 48;
     ten += 48;
     one += 48;
-    *str[0 + curleng] = thousand;
-    *str[1 + curleng] = hundred;
-    *str[2 + curleng] = ten;
-    *str[3 + curleng] = one;
-    *str[4 + curleng] = 0;
+    str[curleng + 0] = thousand;
+    str[curleng + 1] = hundred;
+    str[curleng + 2] = ten;
+    str[curleng + 3] = one;
+    str[curleng + 4] = 0;
+    return str;
 }
 
-void delay(unsigned char n) {
-    unsigned char timeoutcount;
-    while(timeoutcount < n) {
-        if(IFS(0) & 0x100){         // check if interrupt flag is enabled
-            timeoutcount++;           // Increment timeoutcount
-            IFSCLR(0) = 0x100;        //Reset the timeout flag
+static const char * strings[] = {"null", "normal", "fire", "water", "grass",
+    "ground","flying","ice", "electric"};
+
+const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char n){
+    signed char selected = 0;
+    while(1) {
+        update();
+        if(getBtns()) {
+            if(getBtns() == (1 << 0)) {
+                selected++;
+                while(getBtns() & 1);
+            }
+            if(getBtns() == (1 << 1)) {
+                selected--;
+                while(getBtns() & 2);
+            }
+            if(getBtns() == (1 << 2)) {
+                while(getBtns() & 4);
+                return list[selected];
+            }
         }
+        if(selected > n-1){
+            selected = 0;
+        }
+        if(selected < 0){
+            selected = n-1;
+        }
+        clrScr();
+        drawSprite(96,0, list[selected]->sprite->front, 32, 32);
+        drawString(strings[list[selected]->pokemonType1],32,0);
+        drawString(strings[list[selected]->pokemonType2],32,16);
     }
 }
 
@@ -212,8 +247,8 @@ int main(void) {
     const moveStruct curse =        {2, null, 0, 100, 0x20, "Curse"};
     // all pokemon
     //const pokemonStruct charizord = {fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85};
-    const pokemonStruct grassGround = {grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
-    const pokemonStruct qminx = {grass, null, {leafBlade, curse, protect}, 116, 55, 165, 104, 43, 138, &qminxSprite};
+    const pokemonStruct temit = {grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
+    const pokemonStruct qminx = {grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
 
     init();
@@ -221,15 +256,17 @@ int main(void) {
     while(!(getBtns() & 4)){
         randImplemented();
     }
+    while(getBtns() & 4);
 
     battlePokemon pokemon1, pokemon2;
-    importPokemon(&pokemon1, grassGround);
-    importPokemon(&pokemon2, qminx);
-    char p1hp[20];
-    char p2hp[20];
-    p1hp = "player 1 HP:  ";
-    p2hp = "player 2 HP:  ";
+    const pokemonStruct * pokemonList[2] = {&temit, &qminx};
+    const pokemonStruct * player1 = choosePokemon(pokemonList, 2);
+    const pokemonStruct * player2 = choosePokemon(pokemonList, 2);
 
+    importPokemon(&pokemon1, *player1);
+    importPokemon(&pokemon2, *player2);
+    char p1hp[] = "player 1 HP:        ";
+    char p2hp[] = "player 2 HP:        ";
     unsigned char moveIndex1, moveIndex2;
     while(1) {
         clrScr();
@@ -251,14 +288,16 @@ int main(void) {
               IFSCLR(0) = 0x100;        //Reset the timeout flag
             }
         }
-        hpString(&p1hp, pokemon1.hp, 14);
-        hpString(&p2hp, pokemon2.hp, 14);
-        DrawString2(p1hp, 8, 20);
-        DrawString2(p2hp, 8, 40);
-        delay(10);
+        clrScr();
+        hpString(p1hp, pokemon1.hp, 14);
+        hpString(p2hp, pokemon2.hp, 14);
+        drawString(p1hp, 8, 20);
+        drawString(p2hp, 8, 40);
+        update();
+        while(!(getBtns() & 4));
         if(pokemon1.hp == 0) {
             clrScr();
-            DrawString("Player 2 won!", 8, 20);
+            drawString("Player 2 won!", 8, 20);
             update();
             break;
         } else if(pokemon2.hp == 0) {
