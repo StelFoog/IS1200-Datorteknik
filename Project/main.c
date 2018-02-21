@@ -201,27 +201,27 @@ char * hpString(char str[], unsigned short hp, unsigned char curleng) {
 char * statString(char str[], unsigned char stat) {
     unsigned char hundred = 0, ten = 0, one = 0;
     while(1) {
-        if(hp < 100) {
+        if(stat < 100) {
             break;
         } else {
             hundred++;
-            hp -= 100;
+            stat -= 100;
         }
     }
     while(1) {
-        if(hp < 10) {
+        if(stat < 10) {
             break;
         } else {
             ten++;
-            hp -= 10;
+            stat -= 10;
         }
     }
     while(1) {
-        if(hp < 1) {
+        if(stat < 1) {
             break;
         } else {
             one++;
-            hp -= 1;
+            stat -= 1;
         }
     }
     hundred += 48;
@@ -265,34 +265,34 @@ const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char 
         }
         clrScr();
         drawSprite(96,0, list[selected]->sprite->front, 32, 32);
-        drawString(list[selected]->name, 3, 2);
-        drawString(strings[list[selected]->pokemonType1],3,10);
+        drawString(list[selected]->name, 0, 2);
+        drawString(strings[list[selected]->pokemonType1],0,10);
         drawString(strings[list[selected]->pokemonType2],52,10);
-        drawString("Stats", 3, 24);
+        drawString("Stats", 0, 24);
 
-        drawString("HP:    ", 8, 34);
+        drawString("HP:    ", 2, 34);
         statString(str, list[selected]->baseHp);
         drawString(str, 44, 34);
 
         drawString("Speed: ", 68, 34);
-        statString(str, list[selected]->baseSpeed)
-        drawString(str, 104, 34);
+        statString(str, list[selected]->baseSpeed);
+        drawString(str, 108, 34);
 
-        drawString("PyAtk: ", 8, 42);
+        drawString("PyAtk: ", 2, 42);
         statString(str, list[selected]->basePyAtk);
         drawString(str, 44, 42);
 
         drawString("SpAtk: ", 68, 42);
         statString(str, list[selected]->baseSpAtk);
-        drawString(str, 104, 42);
+        drawString(str, 108, 42);
 
-        drawString("PyDef: ", 8, 50);
+        drawString("PyDef: ", 2, 50);
         statString(str, list[selected]->basePyDef);
         drawString(str, 44, 50);
 
         drawString("SpDef: ", 68, 50);
-        statString(str, list[selected]->baseSpDef)
-        drawString(str, 104, 50);
+        statString(str, list[selected]->baseSpDef);
+        drawString(str, 108, 50);
 
         drawSprite(4 * selected, 56, pkmnSelectCursor, 4, 8);
     }

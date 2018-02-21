@@ -13,6 +13,7 @@ const unsigned char startScreen[1024];
 
 const unsigned char cursor[8];
 
+const unsigned char pkmnSelectCursor[4];
 const sprite qminxSprite;
 const sprite temitSprite;
 
