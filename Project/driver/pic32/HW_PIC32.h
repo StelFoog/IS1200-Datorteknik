@@ -28,7 +28,7 @@ void _initTWI()
 
 void update()
 {
-	IECCLR(0) = 0xE0000000;
+	//IECCLR(0) = 0xE0000000;
 	int i;
     for(i = 0 ; i < 8; i++){
         _sendTWIcommand(SH1106_SETSTARTPAGE + i);
@@ -63,7 +63,7 @@ void update()
             while (I2C1CON & (1 << _I2CCON_PEN)) {}	// Wait for stop condition
         }
     }
-	IECSET(0) = 0xE0000000; // set interuppt
+	//IECSET(0) = 0xE0000000; // set interuppt
 }
 
 void _sendTWIcommand(uint8_t value)

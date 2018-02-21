@@ -11,10 +11,7 @@
 #include "driver/graphics.h"
 #include "driver/OLED_I2C.h"
 
-unsigned char timeoutcount = 0;
-
-unsigned int randImplemented (void)
-{
+unsigned int randImplemented (void) {
    static unsigned int z1 = 12345, z2 = 12345, z3 = 12345, z4 = 12345;
    unsigned int b;
    b  = ((z1 << 6) ^ z1) >> 13;
@@ -86,6 +83,7 @@ void printStats(battlePokemon pokemon) {
 }
 
 unsigned char moveSelect(battlePokemon pokemon) {
+    unsigned char timeoutcount = 0;
     signed char selected = 0, cursorBlink = 0, buttonCheck = 1;
     while(1) {
         update();
@@ -144,6 +142,16 @@ unsigned char moveSelect(battlePokemon pokemon) {
     }
 }
 
+void delay(unsigned char n) {
+    unsigned char timeoutcount;
+    while(timeoutcount < n) {
+        if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+            timeoutcount++;           // Increment timeoutcount
+            IFSCLR(0) = 0x100;        //Reset the timeout flag
+        }
+    }
+}
+
 int main(void) {
     //srand(time(NULL));
     // all moves
@@ -160,13 +168,18 @@ int main(void) {
     // all pokemon
     //const pokemonStruct charizord = {fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85};
     const pokemonStruct grassGround = {grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
-    const pokemonStruct qminx = {grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
+    const pokemonStruct qminx = {grass, null, {leafBlade, curse, protect}, 116, 55, 165, 104, 43, 138, &qminxSprite};
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
 
     init();
-    while(!(getBtns())){
+    unsigned char timeoutcount = 0;
+    while(!(getBtns() & 4)){
         randImplemented();
     }
+    char temp1[4];
+    char longTemp1[20];
+    char temp2[4];
+    char longTemp2[20];
 
     battlePokemon pokemon1, pokemon2;
     importPokemon(&pokemon1, grassGround);
@@ -174,17 +187,51 @@ int main(void) {
 
     unsigned char moveIndex1, moveIndex2;
     while(1) {
+        clrScr();
+        while(getBtns());
+        delay(3);
         moveIndex1 = moveSelect(pokemon1);
+        while(getBtns());
+        delay(3);
         moveIndex2 = moveSelect(pokemon2);
         battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
-        if(pokemon1.hp <= 0) {
+        timeoutcount = 0;
+        while (timeoutcount < 10)  {
+            clrScr();
+            drawSprite(96, 0, (*(pokemon2.sprite)).front, 32, 32);
+            drawSprite(0, 32, (*(pokemon1.sprite)).back, 32, 32);
+            update();
+            if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+              timeoutcount++;           // Increment timeoutcount
+              IFSCLR(0) = 0x100;        //Reset the timeout flag
+            }
+        }
+        sprintf(&temp1, "%hu", pokemon1.hp);
+        strcat(&longTemp1, "Player 1 HP: ");
+        strcat(&longTemp1, temp1);
+        sprintf(&temp2, "%hu", pokemon2.hp);
+        strcat(&longTemp2, "Player 2 HP: ");
+        strcat(&longTemp2, temp2);
+        clrScr();
+        DrawString(longTemp1, 8, 16);
+        DrawString(longTemp2, 8, 40);
+        update();
+        delay(10);
+        if(pokemon1.hp == 0) {
+            clrScr();
+            DrawString("Player 2 won!", 8, 20);
+            update();
             break;
-        } else if(pokemon2.hp <= 0) {
+        } else if(pokemon2.hp == 0) {
+            clrScr();
+            DrawString("Player 1 won!", 8, 20);
+            update();
             break;
         }
     }
-    clrScr();
-    drawSprite(0,0,startScreen,128, 64);
-    update();
+    //clrScr();
+    //drawSprite(0,0,startScreen,128, 64);
+    //setPixel(64, 32);
+    //update();
     return 0;
 }

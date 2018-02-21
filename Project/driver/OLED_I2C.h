@@ -70,7 +70,6 @@
 
 void	begin();
 void	update();
-void  delay(unsigned int t);
 void	setBrightness(uint8_t value);
 void	clrScr();
 void	invert(char mode);

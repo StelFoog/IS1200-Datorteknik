@@ -42,14 +42,6 @@ void begin()
 	update();
 }
 
-void delay (unsigned int t) {
-  int c, d;
-  for (c = 1; c <= t; c++){
-    for (d = 1; d <= 3400; d++)
-    {}
-  }
-}
-
 void clrScr(){
   int i;
   for(i=0;i<1024;i++){
