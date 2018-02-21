@@ -117,9 +117,9 @@ unsigned char moveSelect(battlePokemon pokemon) {
         }
 
         clrScr();
-        DrawString(pokemon.moveset[0].name, (0 + 0), (8 + 0));
-        DrawString(pokemon.moveset[1].name, (0 + 64), (8 + 0));
-        DrawString(pokemon.moveset[2].name, (0 + 0), (0 + 40));
+        drawMoves(pokemon.moveset[0].name, (0 + 0), (8 + 0));
+        drawMoves(pokemon.moveset[1].name, (0 + 64), (8 + 0));
+        drawMoves(pokemon.moveset[2].name, (0 + 0), (0 + 40));
 
         if(cursorBlink % 2) {
             switch (selected) {
@@ -213,8 +213,8 @@ int main(void) {
         strcat(&longTemp2, "Player 2 HP: ");
         strcat(&longTemp2, temp2);
         clrScr();
-        DrawString(longTemp1, 8, 16);
-        DrawString(longTemp2, 8, 40);
+        drawString(longTemp1, 8, 16);
+        drawString(longTemp2, 8, 40);
         update();
         delay(10);
         if(pokemon1.hp == 0) {
@@ -224,7 +224,7 @@ int main(void) {
             break;
         } else if(pokemon2.hp == 0) {
             clrScr();
-            DrawString("Player 1 won!", 8, 20);
+            drawString("Player 1 won!", 8, 20);
             update();
             break;
         }
