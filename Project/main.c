@@ -40,8 +40,8 @@ unsigned short statCalc(int base, char level, char hp) {
     return stat;
 }
     // debugging – the total value of a pokemons base stats
-int statTotal(pokemonStruct pkmn) {
-    return pkmn.baseHp+pkmn.baseSpeed+pkmn.basePyAtk+pkmn.basePyDef+pkmn.baseSpAtk+pkmn.baseSpDef;
+int statTotal(pokemonStruct * pkmn) {
+    return pkmn->baseHp+pkmn->baseSpeed+pkmn->basePyAtk+pkmn->basePyDef+pkmn->baseSpAtk+pkmn->baseSpDef;
 }
     // transfers pokemonStruct to battlePokemon
 void importPokemon(battlePokemon *pokemon, pokemonStruct pkmn) {

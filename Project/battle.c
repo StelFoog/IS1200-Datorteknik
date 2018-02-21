@@ -235,7 +235,7 @@ void setStageBuff(signed char *stage, signed char increaseDecrease) {
 }
 
     // executes an attack
-void attackExec(moveStruct *move, battlePokemon *atkPokemon, battlePokemon *defPokemon) {
+void attackExec(moveStruct * move, battlePokemon * atkPokemon, battlePokemon * defPokemon) {
     if((((*move).phySpecPrio >> 4) & 0x3 ) != 2) {
         unsigned short atk;
         unsigned short def;
