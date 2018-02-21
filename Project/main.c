@@ -142,6 +142,51 @@ unsigned char moveSelect(battlePokemon pokemon) {
     }
 }
 
+void hpString(char *str[], unsigned short hp, unsigned char curleng) {
+    unsigned char thousand = 0, hundred = 0, ten = 0, one = 0;
+    while(1) {
+        if(hp < 1000) {
+            break;
+        } else {
+            thousand++;
+            hp -= 1000;
+        }
+    }
+    while(1) {
+        if(hp < 100) {
+            break;
+        } else {
+            hundred++;
+            hp -= 100;
+        }
+    }
+    while(1) {
+        if(hp < 10) {
+            break;
+        } else {
+            ten++;
+            hp -= 10;
+        }
+    }
+    while(1) {
+        if(hp < 1) {
+            break;
+        } else {
+            one++;
+            hp -= 1;
+        }
+    }
+    thousand += 48;
+    hundred += 48;
+    ten += 48;
+    one += 48;
+    *str[0 + curleng] = thousand;
+    *str[1 + curleng] = hundred;
+    *str[2 + curleng] = ten;
+    *str[3 + curleng] = one;
+    *str[4 + curleng] = 0;
+}
+
 void delay(unsigned char n) {
     unsigned char timeoutcount;
     while(timeoutcount < n) {
@@ -176,14 +221,14 @@ int main(void) {
     while(!(getBtns() & 4)){
         randImplemented();
     }
-    char temp1[4];
-    char longTemp1[20];
-    char temp2[4];
-    char longTemp2[20];
 
     battlePokemon pokemon1, pokemon2;
     importPokemon(&pokemon1, grassGround);
     importPokemon(&pokemon2, qminx);
+    char p1hp[20];
+    char p2hp[20];
+    p1hp = "player 1 HP:  ";
+    p2hp = "player 2 HP:  ";
 
     unsigned char moveIndex1, moveIndex2;
     while(1) {
@@ -206,16 +251,10 @@ int main(void) {
               IFSCLR(0) = 0x100;        //Reset the timeout flag
             }
         }
-        sprintf(&temp1, "%hu", pokemon1.hp);
-        strcat(&longTemp1, "Player 1 HP: ");
-        strcat(&longTemp1, temp1);
-        sprintf(&temp2, "%hu", pokemon2.hp);
-        strcat(&longTemp2, "Player 2 HP: ");
-        strcat(&longTemp2, temp2);
-        clrScr();
-        DrawString(longTemp1, 8, 16);
-        DrawString(longTemp2, 8, 40);
-        update();
+        hpString(&p1hp, pokemon1.hp, 14);
+        hpString(&p2hp, pokemon2.hp, 14);
+        DrawString2(p1hp, 8, 20);
+        DrawString2(p2hp, 8, 40);
         delay(10);
         if(pokemon1.hp == 0) {
             clrScr();
