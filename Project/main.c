@@ -89,6 +89,8 @@ unsigned char moveSelect(battlePokemon * pokemon) {
         update();
         if(getBtns() && buttonCheck) {
             buttonCheck = 0;
+            cursorBlink = 1;
+            timeoutcount = 0;
             if(getBtns() == (1 << 0)) {
                 selected++;
             }
@@ -100,10 +102,10 @@ unsigned char moveSelect(battlePokemon * pokemon) {
             }
         }
 
-        if(selected > 3) {
+        if(selected >= MOVEAMOUNT) {
             selected = 0;
         } else if(selected < 0) {
-            selected = 3;
+            selected = MOVEAMOUNT - 1;
         }
 
         if(IFS(0) & 0x100){         // check if interrupt flag is enabled
@@ -112,7 +114,11 @@ unsigned char moveSelect(battlePokemon * pokemon) {
         }
         if(timeoutcount == 5){      // If timeoutcount is 5
           buttonCheck = 1;
-          cursorBlink++;
+          if(cursorBlink){
+              cursorBlink = 0;
+          } else {
+              cursorBlink = 1;
+          }
           timeoutcount = 0;
         }
 
@@ -121,7 +127,7 @@ unsigned char moveSelect(battlePokemon * pokemon) {
         drawMoves(pokemon->moveset[1].name, (0 + 64), (8 + 0));
         drawMoves(pokemon->moveset[2].name, (0 + 0), (0 + 40));
 
-        if(cursorBlink % 2) {
+        if(cursorBlink) {
             switch (selected) {
                 case 0:
                     drawSprite(64-16, 8 + 0, cursor, 8, 8);
