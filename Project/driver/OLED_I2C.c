@@ -86,7 +86,7 @@ void invert(char mode)
 		_sendTWIcommand(SH1106_NORMAL_DISPLAY);
 }
 
-void drawSprite(uint8_t x, uint8_t y, const unsigned char bitmap[], uint8_t sx, uint8_t sy){
+void drawSprite(uint8_t x, uint8_t y, const unsigned char * bitmap, uint8_t sx, uint8_t sy){
   unsigned char data;
   uint8_t cx, cy, bit;
   for(cx = 0; cx < sx; cx++){

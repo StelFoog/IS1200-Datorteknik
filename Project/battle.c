@@ -28,12 +28,12 @@ unsigned int damageCalc(unsigned char level, unsigned char basePow, unsigned sho
 }
 
     // returns typechart value * 10
-unsigned char typeEffect(type move, type opponent) {
+unsigned char typeEffect(type * move, type * opponent) {
     double result;
-    switch(move) {
+    switch(*move) {
         // fire as atack typechart
         case fire:
-            switch(opponent) {
+            switch(*opponent) {
                 case fire:
                     result = 5;
                     break;
@@ -55,7 +55,7 @@ unsigned char typeEffect(type move, type opponent) {
             break;
         // water as attack typechart
         case water:
-            switch(opponent) {
+            switch(*opponent) {
                 case fire:
                     result = 5;
                     break;
@@ -76,7 +76,7 @@ unsigned char typeEffect(type move, type opponent) {
             break;
         // grass as attack typechart
         case grass:
-            switch(opponent) {
+            switch(*opponent) {
                 case fire:
                     result = 5;
                     break;
@@ -101,7 +101,7 @@ unsigned char typeEffect(type move, type opponent) {
             break;
         // ground as attack typechart
         case ground:
-            switch(opponent) {
+            switch(*opponent) {
                 case fire:
                     result = 20;
                     break;
@@ -120,7 +120,7 @@ unsigned char typeEffect(type move, type opponent) {
             break;
         // flying as attack typechart
         case flying:
-            switch(opponent) {
+            switch(*opponent) {
                 case grass:
 
                     result = 20;
@@ -137,7 +137,7 @@ unsigned char typeEffect(type move, type opponent) {
             break;
         // ice as attack typechart
         case ice:
-            switch(opponent) {
+            switch(*opponent) {
                 case fire:
                     result = 5;
                     break;
@@ -156,7 +156,7 @@ unsigned char typeEffect(type move, type opponent) {
             break;
         // electric as atack typechart
         case electric:
-            switch(opponent) {
+            switch(*opponent) {
                 case water:
                     result = 20;
                     break;
@@ -183,27 +183,27 @@ unsigned char typeEffect(type move, type opponent) {
 }
 
     // returns type modification * 100
-unsigned short typeMod(moveStruct move, battlePokemon pkmn) {
-    return (typeEffect(move.attackType, pkmn.pokemonType1) * typeEffect(move.attackType, pkmn.pokemonType2));
+unsigned short typeMod(moveStruct * move, battlePokemon * pkmn) {
+    return (typeEffect(&move->attackType, &pkmn->pokemonType1) * typeEffect(&move->attackType, &pkmn->pokemonType2));
 }
 
     // checks for Same-Type Attack Bonus
-unsigned char stab(moveStruct move, battlePokemon pkmn) {
+unsigned char stab(moveStruct * move, battlePokemon * pkmn) {
     double result = 10;
-    if(move.attackType == pkmn.pokemonType1 || move.attackType == pkmn.pokemonType2) {
+    if(move->attackType == pkmn->pokemonType1 || move->attackType == pkmn->pokemonType2) {
         result = 15;
     }
     return result;
 }
 
     // returns which pokemon goes first
-unsigned char priority(moveStruct move1, moveStruct move2, battlePokemon pokemon1, battlePokemon pokemon2) {
+unsigned char priority(moveStruct * move1, moveStruct * move2, battlePokemon * pokemon1, battlePokemon * pokemon2) {
     unsigned char retval = 0;
-    unsigned short speed1 = pokemon1.speed * getStageBuff(pokemon1.speedStage);
-    unsigned short speed2 = pokemon2.speed * getStageBuff(pokemon2.speedStage);
-    if((move1.phySpecPrio & 0x0f) < (move2.phySpecPrio & 0x0f)) {
+    unsigned short speed1 = pokemon1->speed * getStageBuff(pokemon1->speedStage);
+    unsigned short speed2 = pokemon2->speed * getStageBuff(pokemon2->speedStage);
+    if((move1->phySpecPrio & 0x0f) < (move2->phySpecPrio & 0x0f)) {
         retval = 1;
-    } else if((move1.phySpecPrio & 0x0f) == (move2.phySpecPrio & 0x0f)) {
+    } else if((move1->phySpecPrio & 0x0f) == (move2->phySpecPrio & 0x0f)) {
         if(speed1 < speed2) {
             retval = 1;
         }
@@ -251,7 +251,7 @@ void attackExec(moveStruct *move, battlePokemon *atkPokemon, battlePokemon *defP
         }
         if((*move).accuracy > (randImplemented() % 100)) { // attack hit
             ////printf("%d\n", damageCalc((*atkPokemon).level, move.power, atk, def, stab(move, (*atkPokemon)), typeMod(move, (*defPokemon))));
-            (*defPokemon).hp -= damageCalc((*atkPokemon).level, (*move).power, atk, def, stab((*move), (*atkPokemon)), typeMod((*move), (*defPokemon)));
+            (*defPokemon).hp -= damageCalc((*atkPokemon).level, move->power, atk, def, stab(move, atkPokemon), typeMod(move, defPokemon));
             if((*defPokemon).hp > 60000) { // sets HP to 0 if overflow has occured
                 (*defPokemon).hp = 0;
             }
@@ -295,7 +295,7 @@ void moveFlagReset(battlePokemon *pkmn) {
 
     // one turn of battle
 void battlePhase(battlePokemon *pokemon1, battlePokemon *pokemon2, moveStruct *move1, moveStruct *move2) {
-    if(priority(*move1, *move2, *pokemon1, *pokemon2)) { // checks priority
+    if(priority(move1, move2, pokemon1, pokemon2)) { // checks priority
         //printf("pokemon 2 used %s\n", (*move2).name);
         attackExec(move2, pokemon2, pokemon1);
         //printf("\n");
