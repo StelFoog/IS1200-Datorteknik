@@ -265,34 +265,42 @@ const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char 
         }
         clrScr();
         drawSprite(96,0, list[selected]->sprite->front, 32, 32);
-        drawString(list[selected]->name, 3, 2);
-        drawString(strings[list[selected]->pokemonType1],3,10);
+        drawString(list[selected]->name, 0, 2);
+        drawString(strings[list[selected]->pokemonType1],0,10);
         drawString(strings[list[selected]->pokemonType2],52,10);
-        drawString("Stats", 3, 24);
+        drawString("Stats", 0, 24);
 
-        drawString("HP:    ", 8, 34);
+        drawString("HP:    ", 2, 34);
         statString(str, list[selected]->baseHp);
         drawString(str, 44, 34);
 
         drawString("Speed: ", 68, 34);
         statString(str, list[selected]->baseSpeed);
+<<<<<<< HEAD
         drawString(str, 104, 34);
+=======
+        drawString(str, 108, 34);
+>>>>>>> c7ce1c63ed9ba183d4b4b2021e50066f9cd984b5
 
-        drawString("PyAtk: ", 8, 42);
+        drawString("PyAtk: ", 2, 42);
         statString(str, list[selected]->basePyAtk);
         drawString(str, 44, 42);
 
         drawString("SpAtk: ", 68, 42);
         statString(str, list[selected]->baseSpAtk);
-        drawString(str, 104, 42);
+        drawString(str, 108, 42);
 
-        drawString("PyDef: ", 8, 50);
+        drawString("PyDef: ", 2, 50);
         statString(str, list[selected]->basePyDef);
         drawString(str, 44, 50);
 
         drawString("SpDef: ", 68, 50);
         statString(str, list[selected]->baseSpDef);
+<<<<<<< HEAD
         drawString(str, 104, 50);
+=======
+        drawString(str, 108, 50);
+>>>>>>> c7ce1c63ed9ba183d4b4b2021e50066f9cd984b5
 
         drawSprite(4 * selected, 56, pkmnSelectCursor, 4, 8);
     }
