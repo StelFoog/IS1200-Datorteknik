@@ -338,13 +338,14 @@ int main(void) {
     update();
     delay(10);
     const pokemonStruct * player1 = choosePokemon(pokemonList, 2);
+    while(getBtns());
     clrScr();
     drawString("Player 2", 3, 2);
     drawString("Select Pokemon", 8, 12);
     update();
     delay(10);
     const pokemonStruct * player2 = choosePokemon(pokemonList, 2);
-
+    while (getBtns());
     importPokemon(&pokemon1, *player1);
     importPokemon(&pokemon2, *player2);
     char p1hp[] = "player 1 HP:        ";
