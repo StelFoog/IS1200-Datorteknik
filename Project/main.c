@@ -276,11 +276,7 @@ const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char 
 
         drawString("Speed: ", 68, 34);
         statString(str, list[selected]->baseSpeed);
-<<<<<<< HEAD
-        drawString(str, 104, 34);
-=======
         drawString(str, 108, 34);
->>>>>>> c7ce1c63ed9ba183d4b4b2021e50066f9cd984b5
 
         drawString("PyAtk: ", 2, 42);
         statString(str, list[selected]->basePyAtk);
@@ -296,11 +292,7 @@ const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char 
 
         drawString("SpDef: ", 68, 50);
         statString(str, list[selected]->baseSpDef);
-<<<<<<< HEAD
-        drawString(str, 104, 50);
-=======
         drawString(str, 108, 50);
->>>>>>> c7ce1c63ed9ba183d4b4b2021e50066f9cd984b5
 
         drawSprite(4 * selected, 56, pkmnSelectCursor, 4, 8);
     }
