@@ -201,27 +201,27 @@ char * hpString(char str[], unsigned short hp, unsigned char curleng) {
 char * statString(char str[], unsigned char stat) {
     unsigned char hundred = 0, ten = 0, one = 0;
     while(1) {
-        if(hp < 100) {
+        if(stat < 100) {
             break;
         } else {
             hundred++;
-            hp -= 100;
+            stat -= 100;
         }
     }
     while(1) {
-        if(hp < 10) {
+        if(stat < 10) {
             break;
         } else {
             ten++;
-            hp -= 10;
+            stat -= 10;
         }
     }
     while(1) {
-        if(hp < 1) {
+        if(stat < 1) {
             break;
         } else {
             one++;
-            hp -= 1;
+            stat -= 1;
         }
     }
     hundred += 48;
@@ -275,7 +275,7 @@ const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char 
         drawString(str, 44, 34);
 
         drawString("Speed: ", 68, 34);
-        statString(str, list[selected]->baseSpeed)
+        statString(str, list[selected]->baseSpeed);
         drawString(str, 104, 34);
 
         drawString("PyAtk: ", 8, 42);
@@ -291,7 +291,7 @@ const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char 
         drawString(str, 44, 50);
 
         drawString("SpDef: ", 68, 50);
-        statString(str, list[selected]->baseSpDef)
+        statString(str, list[selected]->baseSpDef);
         drawString(str, 104, 50);
 
         drawSprite(4 * selected, 56, pkmnSelectCursor, 4, 8);
@@ -332,13 +332,14 @@ int main(void) {
     update();
     delay(10);
     const pokemonStruct * player1 = choosePokemon(pokemonList, 2);
+    while(getBtns());
     clrScr();
     drawString("Player 2", 3, 2);
     drawString("Select Pokemon", 8, 12);
     update();
     delay(10);
     const pokemonStruct * player2 = choosePokemon(pokemonList, 2);
-
+    while (getBtns());
     importPokemon(&pokemon1, *player1);
     importPokemon(&pokemon2, *player2);
     char p1hp[] = "player 1 HP:        ";

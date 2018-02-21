@@ -22,7 +22,7 @@ typedef struct moveStruct {
 
     // struct for all possible to choose from pokemon
 typedef struct pokemonStruct{
-    char[12] name;
+    char name[12];
     type pokemonType1;
     type pokemonType2;
     moveStruct moveset[MOVEAMOUNT];
