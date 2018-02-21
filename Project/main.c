@@ -11,6 +11,7 @@
 #include "driver/graphics.h"
 #include "driver/OLED_I2C.h"
 
+    // pseudo-random number generator
 unsigned int randImplemented (void) {
    static unsigned int z1 = 12345, z2 = 12345, z3 = 12345, z4 = 12345;
    unsigned int b;
@@ -24,7 +25,6 @@ unsigned int randImplemented (void) {
    z4 = ((z4 & 4294967168U) << 13) ^ b;
    return (z1 ^ z2 ^ z3 ^ z4);
 }
-
     // calculates the final stat value for one stat
 unsigned short statCalc(int base, char level, char hp) {
     //char iv = 8;
@@ -198,10 +198,48 @@ char * hpString(char str[], unsigned short hp, unsigned char curleng) {
     return str;
 }
 
-static const char * strings[] = {"null", "normal", "fire", "water", "grass",
-    "ground","flying","ice", "electric"};
+char * statString(char str[], unsigned char stat) {
+    unsigned char hundred = 0, ten = 0, one = 0;
+    while(1) {
+        if(hp < 100) {
+            break;
+        } else {
+            hundred++;
+            hp -= 100;
+        }
+    }
+    while(1) {
+        if(hp < 10) {
+            break;
+        } else {
+            ten++;
+            hp -= 10;
+        }
+    }
+    while(1) {
+        if(hp < 1) {
+            break;
+        } else {
+            one++;
+            hp -= 1;
+        }
+    }
+    hundred += 48;
+    ten += 48;
+    one += 48;
+    str[0] = hundred;
+    str[1] = ten;
+    str[2] = one;
+    return str;
+}
+
+static const char * strings[] = {"       ",
+    "Normal ",  "Fire   ",  "Water  ",  "Grass  ",
+    "Ground ",  "Flying ",  "Ice    ",  "Eletric",
+};
 
 const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char n){
+    char str[4];
     signed char selected = 0;
     while(1) {
         update();
@@ -227,8 +265,36 @@ const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char 
         }
         clrScr();
         drawSprite(96,0, list[selected]->sprite->front, 32, 32);
-        drawString(strings[list[selected]->pokemonType1],32,0);
-        drawString(strings[list[selected]->pokemonType2],32,16);
+        drawString(list[selected]->name, 3, 2);
+        drawString(strings[list[selected]->pokemonType1],3,10);
+        drawString(strings[list[selected]->pokemonType2],52,10);
+        drawString("Stats", 3, 24);
+
+        drawString("HP:    ", 8, 34);
+        statString(str, list[selected]->baseHp);
+        drawString(str, 44, 34);
+
+        drawString("Speed: ", 68, 34);
+        statString(str, list[selected]->baseSpeed)
+        drawString(str, 104, 34);
+
+        drawString("PyAtk: ", 8, 42);
+        statString(str, list[selected]->basePyAtk);
+        drawString(str, 44, 42);
+
+        drawString("SpAtk: ", 68, 42);
+        statString(str, list[selected]->baseSpAtk);
+        drawString(str, 104, 42);
+
+        drawString("PyDef: ", 8, 50);
+        statString(str, list[selected]->basePyDef);
+        drawString(str, 44, 50);
+
+        drawString("SpDef: ", 68, 50);
+        statString(str, list[selected]->baseSpDef)
+        drawString(str, 104, 50);
+
+        drawSprite(4 * selected, 56, pkmnSelectCursor, 4, 8);
     }
 }
 
@@ -247,8 +313,8 @@ int main(void) {
     const moveStruct curse =        {2, null, 0, 100, 0x20, "Curse"};
     // all pokemon
     //const pokemonStruct charizord = {fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85};
-    const pokemonStruct temit = {grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
-    const pokemonStruct qminx = {grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
+    const pokemonStruct temit = {"TEMIT", grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
+    const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
 
     init();
@@ -260,7 +326,17 @@ int main(void) {
 
     battlePokemon pokemon1, pokemon2;
     const pokemonStruct * pokemonList[2] = {&temit, &qminx};
+    clrScr();
+    drawString("Player 1", 3, 2);
+    drawString("Select Pokemon", 8, 12);
+    update();
+    delay(10);
     const pokemonStruct * player1 = choosePokemon(pokemonList, 2);
+    clrScr();
+    drawString("Player 2", 3, 2);
+    drawString("Select Pokemon", 8, 12);
+    update();
+    delay(10);
     const pokemonStruct * player2 = choosePokemon(pokemonList, 2);
 
     importPokemon(&pokemon1, *player1);

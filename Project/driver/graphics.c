@@ -10,6 +10,10 @@ const unsigned char cursor[8] = {
   0x24,
   0x3c
 };
+
+const unsigned char pkmnSelectCursor[4] = {
+    0x0f, 0x0f, 0x0f, 0x0f
+}
 const sprite qminxSprite = {
     {
       0x00, 0x00, 0x00, 0x00,
