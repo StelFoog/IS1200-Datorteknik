@@ -1,3 +1,6 @@
+#ifndef HEADER_HW_PIC32_DEFINES
+#define HEADER_HW_PIC32_DEFINES
+
 // *** Hardwarespecific defines ***
 #define bitmapbyte(x) bitmap[x]
 
@@ -9,5 +12,7 @@
 
 #ifndef TWI_FREQ
 	#define TWI_FREQ 400000L
+
+#endif
 
 #endif

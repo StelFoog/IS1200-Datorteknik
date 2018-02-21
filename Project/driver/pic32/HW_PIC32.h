@@ -1,3 +1,6 @@
+#ifndef HEADER_HW_PIC32
+#define HEADER_HW_PIC32
+
 
 #include <stdint.h>
 
@@ -89,3 +92,5 @@ void _sendTWIcommand(uint8_t value)
 	I2C1CONSET = (1 << _I2CCON_PEN);								// Send stop condition
 	while (I2C1CON & (1 << _I2CCON_PEN)) {}					// Wait for stop condition to finish
 }
+
+#endif
