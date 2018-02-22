@@ -44,27 +44,27 @@ int statTotal(pokemonStruct * pkmn) {
     return pkmn->baseHp+pkmn->baseSpeed+pkmn->basePyAtk+pkmn->basePyDef+pkmn->baseSpAtk+pkmn->baseSpDef;
 }
     // transfers pokemonStruct to battlePokemon
-void importPokemon(battlePokemon *pokemon, pokemonStruct pkmn) {
+void importPokemon(battlePokemon *pokemon, const pokemonStruct * pkmn) {
     int i;
-    (*pokemon).pokemonType1 = pkmn.pokemonType1;
-    (*pokemon).pokemonType2 = pkmn.pokemonType2;
+    (*pokemon).pokemonType1 = pkmn->pokemonType1;
+    (*pokemon).pokemonType2 = pkmn->pokemonType2;
     for(i = 0; i < MOVEAMOUNT; i++) {
-        (*pokemon).moveset[i] = pkmn.moveset[i];
+        (*pokemon).moveset[i] = pkmn->moveset[i];
     }
     //(*pokemon).level = (rand() % 10) + 45;
     (*pokemon).level = 50;
-    (*pokemon).hp = statCalc(pkmn.baseHp, (*pokemon).level, 1);
-    (*pokemon).speed = statCalc(pkmn.baseSpeed, (*pokemon).level, 0);
-    (*pokemon).pyAtk = statCalc(pkmn.basePyAtk, (*pokemon).level, 0);
-    (*pokemon).pyDef = statCalc(pkmn.basePyDef, (*pokemon).level, 0);
-    (*pokemon).spAtk = statCalc(pkmn.baseSpAtk, (*pokemon).level, 0);
-    (*pokemon).spDef = statCalc(pkmn.baseSpDef, (*pokemon).level, 0);
+    (*pokemon).hp = statCalc(pkmn->baseHp, (*pokemon).level, 1);
+    (*pokemon).speed = statCalc(pkmn->baseSpeed, (*pokemon).level, 0);
+    (*pokemon).pyAtk = statCalc(pkmn->basePyAtk, (*pokemon).level, 0);
+    (*pokemon).pyDef = statCalc(pkmn->basePyDef, (*pokemon).level, 0);
+    (*pokemon).spAtk = statCalc(pkmn->baseSpAtk, (*pokemon).level, 0);
+    (*pokemon).spDef = statCalc(pkmn->baseSpDef, (*pokemon).level, 0);
     (*pokemon).speedStage = 0;
     (*pokemon).pyAtkStage = 0;
     (*pokemon).pyDefStage = 0;
     (*pokemon).spAtkStage = 0;
     (*pokemon).spDefStage = 0;
-    (*pokemon).sprite = pkmn.sprite;
+    (*pokemon).sprite = pkmn->sprite;
 }
     // prints all the final stats
 void printStats(battlePokemon pokemon) {
@@ -346,8 +346,8 @@ int main(void) {
     delay(10);
     const pokemonStruct * player2 = choosePokemon(pokemonList, 2);
     while (getBtns());
-    importPokemon(&pokemon1, *player1);
-    importPokemon(&pokemon2, *player2);
+    importPokemon(&pokemon1, player1);
+    importPokemon(&pokemon2, player2);
     char p1hp[] = "player 1 HP:        ";
     char p2hp[] = "player 2 HP:        ";
     unsigned char moveIndex1, moveIndex2;
