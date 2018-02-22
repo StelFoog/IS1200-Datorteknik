@@ -373,9 +373,5 @@ int main(void) {
             break;
         }
     }
-    //clrScr();
-    //drawSprite(0,0,startScreen,128, 64);
-    //setPixel(64, 32);
-    //update();
     return 0;
 }
