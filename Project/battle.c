@@ -297,28 +297,32 @@ void moveFlagReset(battlePokemon *pkmn) {
     // one turn of battle
 void battlePhase(battlePokemon *pokemon1, battlePokemon *pokemon2, moveStruct *move1, moveStruct *move2) {
     if(priority(move1, move2, pokemon1, pokemon2)) { // checks priority
-        //printf("pokemon 2 used %s\n", (*move2).name);
+        attackAnimation(move2, pokemon1, pokemon2, 2);
         attackExec(move2, pokemon2, pokemon1);
-
         //printf("\n");
         if((*pokemon1).hp > 0) { // checks for faint
+            idleAnimationDelay(pokemon1, pokemon2, 10);
             //printf("pokemon 1 used %s\n", (*move1).name);
             if(getFlag(protectID, *pokemon2)) {
                 //printf("Didn't break through protect\n");
             } else {
+                attackAnimation(move1, pokemon1, pokemon2, 1);
                 attackExec(move1, pokemon1, pokemon2);
             }
             //printf("\n");
         }
     } else {
         //printf("pokemon 1 used %s\n", (*move1).name);
+        attackAnimation(move1, pokemon1, pokemon2, 1);
         attackExec(move1, pokemon1, pokemon2);
         //printf("\n");
         if((*pokemon2).hp > 0) { // checks for faint
+            idleAnimationDelay(pokemon1, pokemon2, 10);
             //printf("pokemon 2 used %s\n", (*move2).name);
             if(getFlag(protectID, *pokemon1)) {
                 //printf("Didn't break through protect\n");
             } else {
+                attackAnimation(move2, pokemon1, pokemon2, 2);
                 attackExec(move2, pokemon2, pokemon1);
             }
             //printf("\n");

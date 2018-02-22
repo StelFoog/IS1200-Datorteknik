@@ -357,8 +357,8 @@ int main(void) {
             update();
             delay(10);
             moveIndex2 = moveSelect(&pokemon2);
+            idleAnimationBtn(&pokemon1, &pokemon2);
             battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
-
             /*timeoutcount = 0;
             while(timeoutcount < 10)  {
                 clrScr();
@@ -370,6 +370,7 @@ int main(void) {
                   IFSCLR(0) = 0x100;        //Reset the timeout flag
                 }
             }*/
+            /*
             clrScr();
             hpString(p1hp, pokemon1.hp, 14);
             hpString(p2hp, pokemon2.hp, 14);
@@ -377,6 +378,7 @@ int main(void) {
             drawString(p2hp, 8, 40);
             update();
             while(!(getBtns() & 4));
+            */
             if(pokemon1.hp == 0) {
                 clrScr();
                 drawString("Player 2 won!", 8, 20);

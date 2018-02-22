@@ -5,12 +5,43 @@
 #include "driver/graphics.h"
 #include "driver/OLED_I2C.h"
 
-void idleAnimation(battlePokemon *pkmn1, battlePokemon *pkmn2) {
+void idleAnimationBtn(battlePokemon *pkmn1, battlePokemon *pkmn2) {
     unsigned char moveCount = 0, timeoutcount = 0;
     char str[4];
     while(!(getBtns() & 4)) {
         if(IFS(0) & 0x100){         // check if interrupt flag is enabled
           timeoutcount++;           // Increment timeoutcount
+          IFSCLR(0) = 0x100;        //Reset the timeout flag
+        }
+        if(timeoutcount > 1) {
+            clrScr();
+            timeoutcount = 0;
+            if(moveCount > 1)
+                moveCount = 0;
+            drawSprite(96, moveCount, pkmn2->sprite->front, 32, 32);
+            drawSprite(0, 32-moveCount, pkmn1->sprite->back, 32, 32);
+
+            drawString("P1 HP: ", 52, 128-62);
+            hpString(str, pkmn1->hp, 0);
+            drawString(str, 52, 20);
+
+            drawString("P2 HP: ", 2, 2);
+            hpString(str, pkmn2->hp, 0);
+            drawString(str, 2, 44);
+
+            update();
+            moveCount++;
+        }
+    }
+}
+
+void idleAnimationDelay(battlePokemon *pkmn1, battlePokemon *pkmn2, unsigned char delay) {
+    unsigned char moveCount = 0, timeoutcount = 0, counter = 0;
+    char str[4];
+    while(counter < delay) {
+        if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+          timeoutcount++;           // Increment timeoutcount
+          counter++;
           IFSCLR(0) = 0x100;        //Reset the timeout flag
         }
         if(timeoutcount > 1) {
@@ -105,7 +136,6 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
             hpString(str, pkmn2->hp, 0);
             drawString(str, 2, 44);
         }
-<<<<<<< HEAD
     } else {
         while(timeoutcount < 12) {
             clrScr();
@@ -117,10 +147,15 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
                 if(!((timeoutcount == 9) || (timeoutcount == 11))) {
                     drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
                 }
-                drawSprite
+                if(timeoutcount < 9) {
+                    drawSprite(24 + (7 * timeoutcount), 32 - (2 * timeoutcount), spAtkSprite, 8, 8);
+                }
                 drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
             } else {
                 drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
+                if(timeoutcount < 9) {
+                    drawSprite(96 - (7 * timeoutcount), 16 + (2 * timeoutcount), spAtkSprite, 8, 8);
+                }
                 if(!((timeoutcount == 9) || (timeoutcount == 11))) {
                     drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
                 }
@@ -134,7 +169,5 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
             hpString(str, pkmn2->hp, 0);
             drawSprite(str, 2, 44);
         }
-=======
->>>>>>> a8e9a03ce7af83e665733b16809565853b8b3ae8
     }
 }
