@@ -69,15 +69,33 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
             update();
         }
     } else if(((atk->phySpecPrio >> 4) & 3) == 1) {
-        unsigned char timeoutcount = 0;
         while(timeoutcount < 10) {
             clrScr();
             if(IFS(0) & 0x100){         // check if interrupt flag is enabled
                 timeoutcount++;           // Increment timeoutcount
                 IFSCLR(0) = 0x100;        //Reset the timeout flag
             }
-            drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
-            drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
+            if(atkingPkmn == 1) {
+                if(timeoutcount < 9) {
+                    drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
+                    drawSprite(7 * timeoutcount, 32 - (2 * timeoutcount), pkmn1->sprite->back, 32, 32);
+                } else {
+                    if(timeoutcount == 10) {
+                        drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
+                    }
+                    drawSprite(63, 14, pkmn1->sprite->back, 32, 32);
+                }
+            } else {
+                if(timeoutcount < 9) {
+                    drawSprite(96 - (7 * timeoutcount), 2 * timeoutcount, pkmn2->sprite->front, 32, 32);
+                    drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
+                } else {
+                    drawSprite(96 - (7 * 9), 18, pkmn2->sprite->front, 32, 32);
+                    if(timeoutcount == 10) {
+                        drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
+                    }
+                }
+            }
 
             drawString("P1 HP: ", 52, 128-62);
             hpString(str, pkmn1->hp, 0);
@@ -87,5 +105,36 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
             hpString(str, pkmn2->hp, 0);
             drawString(str, 2, 44);
         }
+<<<<<<< HEAD
+    } else {
+        while(timeoutcount < 12) {
+            clrScr();
+            if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+                timeoutcount++;           // Increment timeoutcount
+                IFSCLR(0) = 0x100;        //Reset the timeout flag
+            }
+            if(atkingPkmn == 1) {
+                if(!((timeoutcount == 9) || (timeoutcount == 11))) {
+                    drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
+                }
+                drawSprite
+                drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
+            } else {
+                drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
+                if(!((timeoutcount == 9) || (timeoutcount == 11))) {
+                    drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
+                }
+            }
+
+            drawString("P1 HP: ", 52, 128-62);
+            hpString(str, pkmn1->hp, 0);
+            drawSprite(str, 52, 20);
+
+            drawString("P2 HP: ", 2, 2);
+            hpString(str, pkmn2->hp, 0);
+            drawSprite(str, 2, 44);
+        }
+=======
+>>>>>>> a8e9a03ce7af83e665733b16809565853b8b3ae8
     }
 }
