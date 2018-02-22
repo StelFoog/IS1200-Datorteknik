@@ -56,4 +56,6 @@ typedef struct battlePokemon{
     const sprite *sprite;
 } battlePokemon; // size of battlePokemon is 112 byte
 
+char * hpString(char str[], unsigned short hp, unsigned char curleng);
+
 #endif

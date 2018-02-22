@@ -5,6 +5,7 @@
 #include "battle.h"
 #include "flags.h"
 #include "io.h"
+#include "animation.h"
 
     // returns damage dealt with the given variables
 unsigned int damageCalc(unsigned char level, unsigned char basePow, unsigned short atk, unsigned short def, unsigned char stab, unsigned short typeMod) {
@@ -298,6 +299,7 @@ void battlePhase(battlePokemon *pokemon1, battlePokemon *pokemon2, moveStruct *m
     if(priority(move1, move2, pokemon1, pokemon2)) { // checks priority
         //printf("pokemon 2 used %s\n", (*move2).name);
         attackExec(move2, pokemon2, pokemon1);
+
         //printf("\n");
         if((*pokemon1).hp > 0) { // checks for faint
             //printf("pokemon 1 used %s\n", (*move1).name);
@@ -326,4 +328,8 @@ void battlePhase(battlePokemon *pokemon1, battlePokemon *pokemon2, moveStruct *m
     clrAllFlags(pokemon2);
     moveFlagReset(pokemon1);
     moveFlagReset(pokemon2);
+}
+
+void battleAnimation(battlePokemon *pkmn1, battlePokemon *pkmn2, moveStruct *move1, moveStruct *move2) {
+
 }
