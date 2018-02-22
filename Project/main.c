@@ -26,10 +26,8 @@ unsigned int randImplemented (void) {
    return (z1 ^ z2 ^ z3 ^ z4);
 }
     // calculates the final stat value for one stat
-unsigned short statCalc(int base, char level, char hp) {
-    //char iv = 8;
+unsigned short statCalc(char base, char level, char hp) {
     char iv = randImplemented() % 16; // random IV between 0 and 15
-    //short stat = floor((double) (2 * base + iv + 22) * level / 100);
     short stat = (2 * base + iv + 22) * level / 100;
     if(hp) {
         stat += level + 10;
@@ -159,16 +157,8 @@ void delay(unsigned char n) {
     }
 }
 
-char * hpString(char str[], unsigned short hp, unsigned char curleng) {
-    unsigned char thousand = 0, hundred = 0, ten = 0, one = 0;
-    while(1) {
-        if(hp < 1000) {
-            break;
-        } else {
-            thousand++;
-            hp -= 1000;
-        }
-    }
+char *hpString(char str[], unsigned short hp, unsigned char curleng) {
+    unsigned char hundred = 0, ten = 0, one = 0;
     while(1) {
         if(hp < 100) {
             break;
@@ -193,19 +183,17 @@ char * hpString(char str[], unsigned short hp, unsigned char curleng) {
             hp -= 1;
         }
     }
-    thousand += 48;
     hundred += 48;
     ten += 48;
     one += 48;
-    str[curleng + 0] = thousand;
-    str[curleng + 1] = hundred;
-    str[curleng + 2] = ten;
-    str[curleng + 3] = one;
-    str[curleng + 4] = 0;
+    str[curleng + 0] = hundred;
+    str[curleng + 1] = ten;
+    str[curleng + 2] = one;
+    str[curleng + 3] = 0;
     return str;
 }
 
-char * statString(char str[], unsigned char stat) {
+char *statString(char str[], unsigned char stat) {
     unsigned char hundred = 0, ten = 0, one = 0;
     while(1) {
         if(stat < 100) {
@@ -240,12 +228,12 @@ char * statString(char str[], unsigned char stat) {
     return str;
 }
 
-static const char * strings[] = {"       ",
+static const char *strings[] = {"       ",
     "Normal ",  "Fire   ",  "Water  ",  "Grass  ",
     "Ground ",  "Flying ",  "Ice    ",  "Eletric",
 };
 
-const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char n){
+const pokemonStruct *choosePokemon(const pokemonStruct * list[], unsigned char n){
     char str[4];
     signed char selected = 0;
     while(1) {
@@ -308,7 +296,6 @@ const pokemonStruct * choosePokemon(const pokemonStruct * list[], unsigned char 
 int main(void) {
     //srand(time(NULL));
     // all moves
-
     const moveStruct protect =      {1, normal, 0, 100, 0x25, "Protect"};
     const moveStruct mysticFire =   {0, fire, 65, 100, 0x10, "Mystic Fire"};
     const moveStruct slam =         {0, normal, 80, 75, 0x00, "Slam"};
@@ -355,8 +342,9 @@ int main(void) {
         moveIndex1 = moveSelect(&pokemon1);
         moveIndex2 = moveSelect(&pokemon2);
         battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
-        timeoutcount = 0;
-        while (timeoutcount < 10)  {
+
+        /*timeoutcount = 0;
+        while(timeoutcount < 10)  {
             clrScr();
             drawSprite(96, 0, pokemon2.sprite->front, 32, 32);
             drawSprite(0, 32, pokemon1.sprite->back, 32, 32);
@@ -365,7 +353,7 @@ int main(void) {
               timeoutcount++;           // Increment timeoutcount
               IFSCLR(0) = 0x100;        //Reset the timeout flag
             }
-        }
+        }*/
         clrScr();
         hpString(p1hp, pokemon1.hp, 14);
         hpString(p2hp, pokemon2.hp, 14);
