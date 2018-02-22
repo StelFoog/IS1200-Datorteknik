@@ -98,6 +98,7 @@ unsigned char moveSelect(battlePokemon * pokemon) {
                 selected--;
             }
             if(getBtns() == (1 << 2)) {
+                while(getBtns());
                 return selected;
             }
         }
@@ -338,14 +339,12 @@ int main(void) {
     update();
     delay(10);
     const pokemonStruct * player1 = choosePokemon(pokemonList, 2);
-    while(getBtns());
     clrScr();
     drawString("Player 2", 3, 2);
     drawString("Select Pokemon", 8, 12);
     update();
     delay(10);
     const pokemonStruct * player2 = choosePokemon(pokemonList, 2);
-    while (getBtns());
     importPokemon(&pokemon1, player1);
     importPokemon(&pokemon2, player2);
     char p1hp[] = "player 1 HP:        ";
@@ -353,11 +352,7 @@ int main(void) {
     unsigned char moveIndex1, moveIndex2;
     while(1) {
         clrScr();
-        while(getBtns());
-        delay(3);
         moveIndex1 = moveSelect(&pokemon1);
-        while(getBtns());
-        delay(3);
         moveIndex2 = moveSelect(&pokemon2);
         battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
         timeoutcount = 0;
