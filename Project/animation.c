@@ -21,13 +21,13 @@ void idleAnimationBtn(battlePokemon *pkmn1, battlePokemon *pkmn2) {
             drawSprite(96, moveCount, pkmn2->sprite->front, 32, 32);
             drawSprite(0, 32-moveCount, pkmn1->sprite->back, 32, 32);
 
-            drawString("P1 HP: ", 52, 128-62);
+            drawString("P1 HP: ",  128-62, 52);
             hpString(str, pkmn1->hp, 0);
-            drawString(str, 52, 20);
+            drawString(str, 110, 52);
 
             drawString("P2 HP: ", 2, 2);
             hpString(str, pkmn2->hp, 0);
-            drawString(str, 2, 44);
+            drawString(str, 44, 2);
 
             update();
             moveCount++;
@@ -52,13 +52,13 @@ void idleAnimationDelay(battlePokemon *pkmn1, battlePokemon *pkmn2, unsigned cha
             drawSprite(96, moveCount, pkmn2->sprite->front, 32, 32);
             drawSprite(0, 32-moveCount, pkmn1->sprite->back, 32, 32);
 
-            drawString("P1 HP: ", 52, 128-62);
+            drawString("P1 HP: ",  128-62, 52);
             hpString(str, pkmn1->hp, 0);
-            drawString(str, 52, 20);
+            drawString(str, 110, 52);
 
             drawString("P2 HP: ", 2, 2);
             hpString(str, pkmn2->hp, 0);
-            drawString(str, 2, 44);
+            drawString(str, 44, 2);
 
             update();
             moveCount++;
@@ -84,13 +84,13 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
             drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
             drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
 
-            drawString("P1 HP: ", 52, 128-62);
+            drawString("P1 HP: ",  128-62, 52);
             hpString(str, pkmn1->hp, 0);
-            drawString(str, 52, 20);
+            drawString(str, 110, 52);
 
             drawString("P2 HP: ", 2, 2);
             hpString(str, pkmn2->hp, 0);
-            drawString(str, 2, 44);
+            drawString(str, 44, 2);
 
             if(atkingPkmn == 1) {
                 drawSprite(8, 44-moveCount, statusMove,16,16);
@@ -100,6 +100,41 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
             update();
         }
     } else if(((atk->phySpecPrio >> 4) & 3) == 1) {
+        while(timeoutcount < 12) {
+            clrScr();
+            if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+                timeoutcount++;           // Increment timeoutcount
+                IFSCLR(0) = 0x100;        //Reset the timeout flag
+            }
+            if(atkingPkmn == 1) {
+                if(!((timeoutcount == 9) || (timeoutcount == 11))) {
+                    drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
+                }
+                if(timeoutcount < 9) {
+                    drawSprite(24 + (7 * timeoutcount), 32 - (2 * timeoutcount), spAtkSprite, 8, 8);
+                }
+                drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
+            } else {
+                drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
+                if(timeoutcount < 9) {
+                    drawSprite(96 - (7 * timeoutcount), 16 + (2 * timeoutcount), spAtkSprite, 8, 8);
+                }
+                if(!((timeoutcount == 9) || (timeoutcount == 11))) {
+                    drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
+                }
+            }
+
+            drawString("P1 HP: ",  128-62, 52);
+            hpString(str, pkmn1->hp, 0);
+            drawString(str, 110, 52);
+
+            drawString("P2 HP: ", 2, 2);
+            hpString(str, pkmn2->hp, 0);
+            drawString(str, 44, 2);
+
+            update();
+        }
+    } else {
         while(timeoutcount < 10) {
             clrScr();
             if(IFS(0) & 0x100){         // check if interrupt flag is enabled
@@ -128,46 +163,15 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
                 }
             }
 
-            drawString("P1 HP: ", 52, 128-62);
+            drawString("P1 HP: ",  128-62, 52);
             hpString(str, pkmn1->hp, 0);
-            drawString(str, 52, 20);
+            drawString(str, 110, 52);
 
             drawString("P2 HP: ", 2, 2);
             hpString(str, pkmn2->hp, 0);
-            drawString(str, 2, 44);
-        }
-    } else {
-        while(timeoutcount < 12) {
-            clrScr();
-            if(IFS(0) & 0x100){         // check if interrupt flag is enabled
-                timeoutcount++;           // Increment timeoutcount
-                IFSCLR(0) = 0x100;        //Reset the timeout flag
-            }
-            if(atkingPkmn == 1) {
-                if(!((timeoutcount == 9) || (timeoutcount == 11))) {
-                    drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
-                }
-                if(timeoutcount < 9) {
-                    drawSprite(24 + (7 * timeoutcount), 32 - (2 * timeoutcount), spAtkSprite, 8, 8);
-                }
-                drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
-            } else {
-                drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
-                if(timeoutcount < 9) {
-                    drawSprite(96 - (7 * timeoutcount), 16 + (2 * timeoutcount), spAtkSprite, 8, 8);
-                }
-                if(!((timeoutcount == 9) || (timeoutcount == 11))) {
-                    drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
-                }
-            }
+            drawString(str, 44, 2);
 
-            drawString("P1 HP: ", 52, 128-62);
-            hpString(str, pkmn1->hp, 0);
-            drawSprite(str, 52, 20);
-
-            drawString("P2 HP: ", 2, 2);
-            hpString(str, pkmn2->hp, 0);
-            drawSprite(str, 2, 44);
+            update();
         }
     }
 }
