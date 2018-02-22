@@ -14,6 +14,8 @@ const unsigned char pkmnSelectCursor[4];
 
 const unsigned char statusMove[32];
 
+const unsigned char spAtkSprite[8];
+
 const sprite qminxSprite;
 const sprite temitSprite;
 const sprite nullSprite;

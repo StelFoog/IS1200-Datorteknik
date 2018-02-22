@@ -224,6 +224,16 @@ const sprite nullSprite = {
         0x00, 0x00, 0x00, 0x00
     }
 };
+const unsigned char spAtkSprite[8] = {
+    0x04,
+    0x4c,
+    0x0d,
+    0x18,
+    0x9a,
+    0x30,
+    0x32,
+    0xa0
+};
 
 const unsigned char statusMove[32] = {
     0x7f, 0xfe,
