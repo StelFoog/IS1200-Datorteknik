@@ -1,6 +1,3 @@
-/*const unsigned char logo[];
-const unsigned char mice[];
-const unsigned char MysticFire[];*/
 #ifndef HEADER_GRAPHICS
 #define HEADER_GRAPHICS
 
