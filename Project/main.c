@@ -11,6 +11,9 @@
 #include "driver/graphics.h"
 #include "driver/OLED_I2C.h"
 
+
+#define POKEMON_COUNT 3
+
     // pseudo-random number generator
 unsigned int randImplemented (void) {
    static unsigned int z1 = 12345, z2 = 12345, z3 = 12345, z4 = 12345;
@@ -233,7 +236,7 @@ static const char *strings[] = {"       ",
     "Ground ",  "Flying ",  "Ice    ",  "Eletric",
 };
 
-const pokemonStruct *choosePokemon(const pokemonStruct * list[], unsigned char n){
+const pokemonStruct *choosePokemon(const pokemonStruct * list[]){
     char str[4];
     signed char selected = 0;
     while(1) {
@@ -252,11 +255,11 @@ const pokemonStruct *choosePokemon(const pokemonStruct * list[], unsigned char n
                 return list[selected];
             }
         }
-        if(selected > n-1){
+        if(selected > POKEMON_COUNT-1){
             selected = 0;
         }
         if(selected < 0){
-            selected = n-1;
+            selected = POKEMON_COUNT-1;
         }
         clrScr();
         drawSprite(96,0, list[selected]->sprite->front, 32, 32);
@@ -293,6 +296,7 @@ const pokemonStruct *choosePokemon(const pokemonStruct * list[], unsigned char n
     }
 }
 
+
 int main(void) {
     //srand(time(NULL));
     // all moves
@@ -309,6 +313,8 @@ int main(void) {
     //const pokemonStruct charizord = {fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85};
     const pokemonStruct temit = {"TEMIT", grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
     const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
+    const pokemonStruct nullPokemon = {"Null", normal, null, {airCutter, slam, curse}, 116, 55, 65, 104, 43, 138, &nullSprite};
+
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
 
     init();
@@ -316,61 +322,76 @@ int main(void) {
     while(!(getBtns() & 4)){
         randImplemented();
     }
-    while(getBtns() & 4);
-
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[2] = {&temit, &qminx};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&temit, &qminx, &nullPokemon};
     clrScr();
-    drawString("Player 1", 3, 2);
-    drawString("Select Pokemon", 8, 12);
-    update();
-    delay(10);
-    const pokemonStruct * player1 = choosePokemon(pokemonList, 2);
-    clrScr();
-    drawString("Player 2", 3, 2);
-    drawString("Select Pokemon", 8, 12);
-    update();
-    delay(10);
-    const pokemonStruct * player2 = choosePokemon(pokemonList, 2);
-    importPokemon(&pokemon1, player1);
-    importPokemon(&pokemon2, player2);
-    char p1hp[] = "player 1 HP:        ";
-    char p2hp[] = "player 2 HP:        ";
-    unsigned char moveIndex1, moveIndex2;
-    while(1) {
-        clrScr();
-        moveIndex1 = moveSelect(&pokemon1);
-        moveIndex2 = moveSelect(&pokemon2);
-        battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
-
-        /*timeoutcount = 0;
-        while(timeoutcount < 10)  {
-            clrScr();
-            drawSprite(96, 0, pokemon2.sprite->front, 32, 32);
-            drawSprite(0, 32, pokemon1.sprite->back, 32, 32);
-            update();
-            if(IFS(0) & 0x100){         // check if interrupt flag is enabled
-              timeoutcount++;           // Increment timeoutcount
-              IFSCLR(0) = 0x100;        //Reset the timeout flag
-            }
-        }*/
-        clrScr();
-        hpString(p1hp, pokemon1.hp, 14);
-        hpString(p2hp, pokemon2.hp, 14);
-        drawString(p1hp, 8, 20);
-        drawString(p2hp, 8, 40);
+    while(1){
+        while(getBtns() & 4);
+        drawString("Player 1", 3, 2);
+        drawString("Select Pokemon", 8, 12);
         update();
-        while(!(getBtns() & 4));
-        if(pokemon1.hp == 0) {
+        delay(10);
+        const pokemonStruct * player1 = choosePokemon(pokemonList);
+        clrScr();
+        drawString("Player 2", 3, 2);
+        drawString("Select Pokemon", 8, 12);
+        update();
+        delay(10);
+        const pokemonStruct * player2 = choosePokemon(pokemonList);
+        importPokemon(&pokemon1, player1);
+        importPokemon(&pokemon2, player2);
+        char p1hp[] = "player 1 HP:        ";
+        char p2hp[] = "player 2 HP:        ";
+        unsigned char moveIndex1, moveIndex2;
+        while(1) {
+            while(getBtns());
             clrScr();
-            drawString("Player 2 won!", 8, 20);
+            drawString("Player 1", 3, 2);
+            drawString("Choose move",8,12);
             update();
-            break;
-        } else if(pokemon2.hp == 0) {
+            delay(10);
+            moveIndex1 = moveSelect(&pokemon1);
             clrScr();
-            drawString("Player 1 won!", 8, 20);
+            drawString("Player 2", 3, 2);
+            drawString("Choose move",8,12);
             update();
-            break;
+            delay(10);
+            moveIndex2 = moveSelect(&pokemon2);
+            battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
+
+            /*timeoutcount = 0;
+            while(timeoutcount < 10)  {
+                clrScr();
+                drawSprite(96, 0, pokemon2.sprite->front, 32, 32);
+                drawSprite(0, 32, pokemon1.sprite->back, 32, 32);
+                update();
+                if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+                  timeoutcount++;           // Increment timeoutcount
+                  IFSCLR(0) = 0x100;        //Reset the timeout flag
+                }
+            }*/
+            clrScr();
+            hpString(p1hp, pokemon1.hp, 14);
+            hpString(p2hp, pokemon2.hp, 14);
+            drawString(p1hp, 8, 20);
+            drawString(p2hp, 8, 40);
+            update();
+            while(!(getBtns() & 4));
+            if(pokemon1.hp == 0) {
+                clrScr();
+                drawString("Player 2 won!", 8, 20);
+                update();
+                delay(20);
+                clrScr();
+                break;
+            } else if(pokemon2.hp == 0) {
+                clrScr();
+                drawString("Player 1 won!", 8, 20);
+                update();
+                delay(20);
+                clrScr();
+                break;
+            }
         }
     }
     return 0;

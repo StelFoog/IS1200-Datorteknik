@@ -55,16 +55,16 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
 
             drawString("P1 HP: ", 52, 128-62);
             hpString(str, pkmn1->hp, 0);
-            drawSprite(str, 52, 20);
+            drawString(str, 52, 20);
 
             drawString("P2 HP: ", 2, 2);
             hpString(str, pkmn2->hp, 0);
-            drawSprite(str, 2, 44);
+            drawString(str, 2, 44);
 
             if(atkingPkmn == 1) {
-                drawSprite(statusMove, 8, 44-moveCount);
+                drawSprite(8, 44-moveCount, statusMove,16,16);
             } else {
-                drawSprite(statusMove, 104, 12-moveCount);
+                drawSprite(104, 12-moveCount, statusMove,16,16);
             }
             update();
         }
@@ -99,12 +99,13 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
 
             drawString("P1 HP: ", 52, 128-62);
             hpString(str, pkmn1->hp, 0);
-            drawSprite(str, 52, 20);
+            drawString(str, 52, 20);
 
             drawString("P2 HP: ", 2, 2);
             hpString(str, pkmn2->hp, 0);
-            drawSprite(str, 2, 44);
+            drawString(str, 2, 44);
         }
+<<<<<<< HEAD
     } else {
         while(timeoutcount < 12) {
             clrScr();
@@ -133,5 +134,7 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
             hpString(str, pkmn2->hp, 0);
             drawSprite(str, 2, 44);
         }
+=======
+>>>>>>> a8e9a03ce7af83e665733b16809565853b8b3ae8
     }
 }
