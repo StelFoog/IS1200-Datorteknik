@@ -9,7 +9,7 @@ battle.c.o: battle.c /opt/mcb32tools/include/stdlib.h \
  /opt/mcb32tools/include/machine/ieeefp.h \
  /opt/mcb32tools/include/stdint.h \
  /opt/mcb32tools/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h \
- main.h driver/graphics.h battle.h flags.h io.h
+ main.h driver/graphics.h battle.h flags.h io.h animation.h
 battle.c /opt/mcb32tools/include/stdlib.h :
  /opt/mcb32tools/include/klibc/extern.h :
  /opt/mcb32tools/include/klibc/inline.h :
@@ -21,4 +21,4 @@ battle.c /opt/mcb32tools/include/stdlib.h :
  /opt/mcb32tools/include/machine/ieeefp.h :
  /opt/mcb32tools/include/stdint.h :
  /opt/mcb32tools/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h :
- main.h driver/graphics.h battle.h flags.h io.h :
+ main.h driver/graphics.h battle.h flags.h io.h animation.h :
