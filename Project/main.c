@@ -309,13 +309,16 @@ int main(void) {
     const moveStruct leafBlade =    {0, grass, 85, 95, 0x00, "Leaf Blade"};
     const moveStruct mudBomb =      {0, ground, 75, 85, 0x10, "Mud Bomb"};
     const moveStruct curse =        {2, null, 0, 100, 0x20, "Curse"};
+    const moveStruct charm =        {3, normal, 0, 100, 0x20, "Charm"};
+    const moveStruct strength =     {0, normal, 75, 90, 0x00, "Strength"};
+    const moveStruct shockWave =    {0, electric, 70, 100, 0x10, "Shock Wave"}
     // all pokemon
+    const pokemonStruct ferretas = {"FERRETAS", fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85, &nullSprite};
     const pokemonStruct temit = {"TEMIT", grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
     const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
-    const pokemonStruct nullPokemon = {"NULL", normal, null, {airCutter, slam, curse}, 116, 55, 65, 104, 43, 138, &nullSprite};
-
+    const pokemonStruct nullPokemon = {"Bidaul", flying, null, {airCutter, slam, protect}, 73, 137, 55, 54, 123, 68, &nullSprite};
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
-
+    /*
     init();
     unsigned char timeoutcount = 0;
     while(!(getBtns() & 4)){
@@ -378,5 +381,8 @@ int main(void) {
             }
         }
     }
+    */
+
+    printf("%s\n", );
     return 0;
 }

@@ -277,6 +277,9 @@ void attackExec(moveStruct * move, battlePokemon * atkPokemon, battlePokemon * d
                 setStageBuff(&(*atkPokemon).pyAtkStage, +1);
                 setStageBuff(&(*atkPokemon).pyDefStage, +1);
                 break;
+            case 3:
+                setStageBuff(&(*defPokemon).pyAtkStage, -2);
+                break;
             default:
                 //printf("Moveset error\n");
                 break;
