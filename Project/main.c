@@ -228,6 +228,7 @@ char *statString(char str[], unsigned char stat) {
     str[0] = hundred;
     str[1] = ten;
     str[2] = one;
+    str[3] = 0;
     return str;
 }
 
