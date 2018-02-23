@@ -12,7 +12,7 @@
 #include "driver/OLED_I2C.h"
 
 
-#define POKEMON_COUNT 3
+#define POKEMON_COUNT 4
 
     // pseudo-random number generator
 unsigned int randImplemented (void) {
@@ -41,8 +41,8 @@ unsigned short statCalc(char base, char level, char hp) {
     return stat;
 }
     // debugging – the total value of a pokemons base stats
-int statTotal(pokemonStruct * pkmn) {
-    return pkmn->baseHp+pkmn->baseSpeed+pkmn->basePyAtk+pkmn->basePyDef+pkmn->baseSpAtk+pkmn->baseSpDef;
+int statTotal(const pokemonStruct *pkmn) {
+    return pkmn->baseHp + pkmn->baseSpeed + pkmn->basePyAtk + pkmn->basePyDef + pkmn->baseSpAtk + pkmn->baseSpDef;
 }
     // transfers pokemonStruct to battlePokemon
 void importPokemon(battlePokemon *pokemon, const pokemonStruct * pkmn) {
@@ -298,7 +298,6 @@ const pokemonStruct *choosePokemon(const pokemonStruct * list[]){
 
 
 int main(void) {
-    //srand(time(NULL));
     // all moves
     const moveStruct protect =      {1, normal, 0, 100, 0x25, "Protect"};
     const moveStruct mysticFire =   {0, fire, 65, 100, 0x10, "Mystic Fire"};
@@ -311,14 +310,14 @@ int main(void) {
     const moveStruct curse =        {2, null, 0, 100, 0x20, "Curse"};
     const moveStruct charm =        {3, normal, 0, 100, 0x20, "Charm"};
     const moveStruct strength =     {0, normal, 75, 90, 0x00, "Strength"};
-    const moveStruct shockWave =    {0, electric, 70, 100, 0x10, "Shock Wave"}
+    const moveStruct shockWave =    {0, electric, 70, 100, 0x10, "Shock Wave"};
     // all pokemon
     const pokemonStruct ferretas = {"FERRETAS", fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85, &nullSprite};
     const pokemonStruct temit = {"TEMIT", grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
     const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
-    const pokemonStruct nullPokemon = {"Bidaul", flying, null, {airCutter, slam, protect}, 73, 137, 55, 54, 123, 68, &nullSprite};
+    const pokemonStruct bidaul = {"BIDAUL", flying, null, {airCutter, slam, protect}, 73, 147, 55, 54, 133, 68, &nullSprite};
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
-    /*
+
     init();
     unsigned char timeoutcount = 0;
     while(!(getBtns() & 4)){
@@ -381,8 +380,11 @@ int main(void) {
             }
         }
     }
+    /*
+    printf("%d\n", statTotal(&ferretas));
+    printf("%d\n", statTotal(&temit));
+    printf("%d\n", statTotal(&qminx));
+    printf("%d\n", statTotal(&bidaul));
     */
-
-    printf("%s\n", );
     return 0;
 }
