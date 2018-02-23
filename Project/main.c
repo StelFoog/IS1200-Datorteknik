@@ -12,7 +12,7 @@
 #include "driver/OLED_I2C.h"
 
 
-#define POKEMON_COUNT 3
+#define POKEMON_COUNT 4
 
     // pseudo-random number generator
 unsigned int randImplemented (void) {
@@ -228,6 +228,7 @@ char *statString(char str[], unsigned char stat) {
     str[0] = hundred;
     str[1] = ten;
     str[2] = one;
+    str[3] = 0;
     return str;
 }
 
