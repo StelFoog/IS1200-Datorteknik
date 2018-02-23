@@ -12,7 +12,7 @@ const unsigned char cursor[8] = {
 };
 
 const unsigned char pkmnSelectCursor[4] = {
-    0x0f, 0x0f, 0x0f, 0x0f
+    0xff, 0xff, 0xff, 0xff
 };
 
 const sprite qminxSprite = {
