@@ -310,10 +310,9 @@ int main(void) {
     const moveStruct mudBomb =      {0, ground, 75, 85, 0x10, "Mud Bomb"};
     const moveStruct curse =        {2, null, 0, 100, 0x20, "Curse"};
     // all pokemon
-    //const pokemonStruct charizord = {fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85};
     const pokemonStruct temit = {"TEMIT", grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
     const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
-    const pokemonStruct nullPokemon = {"Null", normal, null, {airCutter, slam, curse}, 116, 55, 65, 104, 43, 138, &nullSprite};
+    const pokemonStruct nullPokemon = {"NULL", normal, null, {airCutter, slam, curse}, 116, 55, 65, 104, 43, 138, &nullSprite};
 
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
 
@@ -323,7 +322,7 @@ int main(void) {
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&temit, &qminx, &nullPokemon};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &temit, &qminx, &nullPokemon};
     clrScr();
     while(1){
         while(getBtns() & 4);
@@ -357,28 +356,9 @@ int main(void) {
             update();
             delay(10);
             moveIndex2 = moveSelect(&pokemon2);
-            idleAnimationBtn(&pokemon1, &pokemon2);
+            idleAnimationDelay(&pokemon1, &pokemon2, 10);
             battlePhase(&pokemon1, &pokemon2, &pokemon1.moveset[moveIndex1], &pokemon2.moveset[moveIndex2]);
-            /*timeoutcount = 0;
-            while(timeoutcount < 10)  {
-                clrScr();
-                drawSprite(96, 0, pokemon2.sprite->front, 32, 32);
-                drawSprite(0, 32, pokemon1.sprite->back, 32, 32);
-                update();
-                if(IFS(0) & 0x100){         // check if interrupt flag is enabled
-                  timeoutcount++;           // Increment timeoutcount
-                  IFSCLR(0) = 0x100;        //Reset the timeout flag
-                }
-            }*/
-            /*
-            clrScr();
-            hpString(p1hp, pokemon1.hp, 14);
-            hpString(p2hp, pokemon2.hp, 14);
-            drawString(p1hp, 8, 20);
-            drawString(p2hp, 8, 40);
-            update();
-            while(!(getBtns() & 4));
-            */
+
             if(pokemon1.hp == 0) {
                 faintAnimation(&pokemon1, &pokemon2, 1);
                 clrScr();
