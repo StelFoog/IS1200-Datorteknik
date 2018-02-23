@@ -379,6 +379,7 @@ int main(void) {
                 clrScr();
                 break;
             }
+            idleAnimationDelay(&pokemon1, &pokemon2, 8);
         }
     }
     /*
