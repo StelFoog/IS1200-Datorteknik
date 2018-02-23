@@ -1,7 +1,7 @@
 #ifndef HEADER_MAIN
 #define HEADER_MAIN
 
-#define MOVEAMOUNT 3 // amount of moves in a moveset
+#define MOVEAMOUNT 4 // amount of moves in a moveset
 
 #include "driver/graphics.h"
     // all types

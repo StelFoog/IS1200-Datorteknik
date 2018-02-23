@@ -260,31 +260,33 @@ void attackExec(moveStruct * move, battlePokemon * atkPokemon, battlePokemon * d
             //printf("The attack missed! o.o\n");
         }
     }
-    else {
-        switch((*move).moveEffectID) {
-            case 1:
-                //printf("Used protect.\n");
-                if(((*move).phySpecPrio >> 6) > 0) {
-                    //printf("But it failed!\n");
-                } else {
-                    (*move).phySpecPrio = (*move).phySpecPrio | (2 << 6);
-                    setFlag(protectID, atkPokemon);
-                }
-                break;
-            case 2:
-                //printf("Used curse.\n");
-                setStageBuff(&(*atkPokemon).speedStage, -1);
-                setStageBuff(&(*atkPokemon).pyAtkStage, +1);
-                setStageBuff(&(*atkPokemon).pyDefStage, +1);
-                break;
-            case 3:
-                setStageBuff(&(*defPokemon).pyAtkStage, -2);
-                break;
-            default:
-                //printf("Moveset error\n");
-                break;
-        }
-    }
+    
+    switch((*move).moveEffectID) {
+        case 1:
+            //printf("Used protect.\n");
+            if(((*move).phySpecPrio >> 6) > 0) {
+                //printf("But it failed!\n");
+            } else {
+                (*move).phySpecPrio = (*move).phySpecPrio | (2 << 6);
+                setFlag(protectID, atkPokemon);
+            }
+            break;
+        case 2:
+            //printf("Used curse.\n");
+            setStageBuff(&(*atkPokemon).speedStage, -1);
+            setStageBuff(&(*atkPokemon).pyAtkStage, +1);
+            setStageBuff(&(*atkPokemon).pyDefStage, +1);
+            break;
+        case 3:
+            setStageBuff(&(*defPokemon).pyAtkStage, -2);
+            break;
+        case 4:
+            setStageBuff(&(*defPokemon).pyAtkStage, -1);
+            break;
+        default:
+            //printf("Moveset error\n");
+            break;
+
 }
 
     // lowers the flag count of all moves on a pokemon

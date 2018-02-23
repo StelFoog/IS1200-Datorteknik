@@ -125,9 +125,10 @@ unsigned char moveSelect(battlePokemon * pokemon) {
         }
 
         clrScr();
-        drawMoves(pokemon->moveset[0].name, (0 + 0), (8 + 0));
-        drawMoves(pokemon->moveset[1].name, (0 + 64), (8 + 0));
-        drawMoves(pokemon->moveset[2].name, (0 + 0), (0 + 40));
+        drawMoves(pokemon->moveset[0].name, 0, 8);
+        drawMoves(pokemon->moveset[1].name, 64, 8);
+        drawMoves(pokemon->moveset[2].name, 0, 40);
+        drawMoves(pokemon->moveset[3].name, 64, 40);
 
         if(cursorBlink) {
             switch (selected) {
@@ -312,12 +313,13 @@ int main(void) {
     const moveStruct charm =        {3, normal, 0, 100, 0x20, "Charm"};
     const moveStruct strength =     {0, normal, 75, 90, 0x00, "Strength"};
     const moveStruct shockWave =    {0, electric, 70, 100, 0x10, "Shock Wave"};
+    const moveStruct bulldoze =     {4, ground, 60, 95, 0x00, "Bulldoze"};
     // all pokemon
 
-    const pokemonStruct ferretas = {"FERRETAS", fire, flying, {mysticFire, slam, wingAttack}, 78, 100, 84, 78, 109, 85, &nullSprite};
-    const pokemonStruct temit = {"TEMIT", grass, ground, {leafBlade, quickAttack, mudBomb}, 87, 110, 95, 90, 63, 82, &temitSprite};
-    const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect}, 116, 55, 65, 104, 43, 138, &qminxSprite};
-    const pokemonStruct bidaul = {"BIDAUL", flying, null, {airCutter, slam, protect}, 73, 147, 55, 54, 133, 68, &nullSprite};
+    const pokemonStruct ferretas = {"FERRETAS", fire, flying, {mysticFire, slam, wingAttack, quickAttack}, 78, 100, 84, 78, 109, 85, &nullSprite};
+    const pokemonStruct temit = {"TEMIT", grass, ground, {leafBlade, quickAttack, mudBomb, charm}, 87, 110, 95, 80, 63, 92, &temitSprite};
+    const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect, strength}, 116, 55, 65, 104, 43, 138, &qminxSprite};
+    const pokemonStruct bidaul = {"BIDAUL", flying, null, {airCutter, slam, protect, shockWave}, 73, 147, 55, 54, 133, 68, &nullSprite};
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
 
     init();
