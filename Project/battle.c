@@ -333,7 +333,3 @@ void battlePhase(battlePokemon *pokemon1, battlePokemon *pokemon2, moveStruct *m
     moveFlagReset(pokemon1);
     moveFlagReset(pokemon2);
 }
-
-void battleAnimation(battlePokemon *pkmn1, battlePokemon *pkmn2, moveStruct *move1, moveStruct *move2) {
-
-}

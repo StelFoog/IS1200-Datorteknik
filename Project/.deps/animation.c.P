@@ -1,8 +1,10 @@
 animation.c.o: animation.c main.h driver/graphics.h io.h \
- /opt/mcb32tools/include/pic32mx.h animation.h driver/OLED_I2C.h \
- driver/pic32/HW_PIC32_defines.h /opt/mcb32tools/include/stdint.h \
- /opt/mcb32tools/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/pic32mx.h \
+ animation.h driver/OLED_I2C.h driver/pic32/HW_PIC32_defines.h \
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/stdint.h \
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h
 animation.c main.h driver/graphics.h io.h :
- /opt/mcb32tools/include/pic32mx.h animation.h driver/OLED_I2C.h :
- driver/pic32/HW_PIC32_defines.h /opt/mcb32tools/include/stdint.h :
- /opt/mcb32tools/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h :
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/pic32mx.h :
+ animation.h driver/OLED_I2C.h driver/pic32/HW_PIC32_defines.h :
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/stdint.h :
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h :

@@ -175,3 +175,48 @@ void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2
         }
     }
 }
+
+void faintAnimation(battlePokemon *pkmn1, battlePokemon *pkmn2, char faintedPkmn) {
+    unsigned char moveCount = 0, timeoutcount = 0, counter = 0;
+    char str[4];
+    while(counter < 15) {
+        if(IFS(0) & 0x100){         // check if interrupt flag is enabled
+          timeoutcount++;           // Increment timeoutcount
+          counter++;
+          IFSCLR(0) = 0x100;        //Reset the timeout flag
+        }
+        if(timeoutcount > 1) {
+            timeoutcount = 0;
+            if(moveCount > 1)
+                moveCount = 0;
+            moveCount++;
+        }
+        clrScr();
+
+        if(faintedPkmn == 2) {
+            if(counter < 2) {
+                drawSprite(96, 0, pkmn2->sprite->front, 32, 32);
+            } else if(counter < 12) {
+                drawSprite(96, (counter-2)/2, pkmn2->sprite->front, 32, 32);
+            }
+            drawSprite(0, 32-moveCount, pkmn1->sprite->back, 32, 32);
+        } else {
+            if(counter < 2) {
+                drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
+            } else if(counter < 12) {
+                drawSprite(96, 32 + (counter-2)/2, pkmn2->sprite->front, 32, 32);
+            }
+            drawSprite(96, moveCount, pkmn2->sprite->front, 32, 32);
+        }
+
+        drawString("P1 HP: ",  128-62, 52);
+        hpString(str, pkmn1->hp, 0);
+        drawString(str, 110, 52);
+
+        drawString("P2 HP: ", 2, 2);
+        hpString(str, pkmn2->hp, 0);
+        drawString(str, 44, 2);
+
+        update();
+    }
+}

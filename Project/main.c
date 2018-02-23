@@ -380,6 +380,7 @@ int main(void) {
             while(!(getBtns() & 4));
             */
             if(pokemon1.hp == 0) {
+                faintAnimation(&pokemon1, &pokemon2, 1);
                 clrScr();
                 drawString("Player 2 won!", 8, 20);
                 update();
@@ -387,6 +388,7 @@ int main(void) {
                 clrScr();
                 break;
             } else if(pokemon2.hp == 0) {
+                faintAnimation(&pokemon1, &pokemon2, 2);
                 clrScr();
                 drawString("Player 1 won!", 8, 20);
                 update();

@@ -3,5 +3,6 @@
 
 void idleAnimation(battlePokemon *pkmn1, battlePokemon *pkmn2);
 void attackAnimation(moveStruct *atk, battlePokemon *pkmn1, battlePokemon *pkmn2, char atkingPkmn);
+void faintAnimation(battlePokemon *pkmn1, battlePokemon *pkmn2, char faintedPkmn);
 
 #endif
