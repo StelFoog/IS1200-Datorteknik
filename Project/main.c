@@ -293,7 +293,7 @@ const pokemonStruct *choosePokemon(const pokemonStruct * list[]){
         statString(str, list[selected]->baseSpDef);
         drawString(str, 108, 50);
 
-        drawSprite(4 * selected, 56, pkmnSelectCursor, 4, 8);
+        drawSprite(4 * selected, 60, pkmnSelectCursor, 4, 4);
     }
 }
 
@@ -326,7 +326,7 @@ int main(void) {
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &temit, &qminx, &nullPokemon};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &temit, &qminx, &bidaul};
     clrScr();
     while(1){
         while(getBtns() & 4);
