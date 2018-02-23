@@ -260,7 +260,7 @@ void attackExec(moveStruct * move, battlePokemon * atkPokemon, battlePokemon * d
             //printf("The attack missed! o.o\n");
         }
     }
-    
+
     switch((*move).moveEffectID) {
         case 1:
             //printf("Used protect.\n");
@@ -286,7 +286,7 @@ void attackExec(moveStruct * move, battlePokemon * atkPokemon, battlePokemon * d
         default:
             //printf("Moveset error\n");
             break;
-
+    }
 }
 
     // lowers the flag count of all moves on a pokemon
