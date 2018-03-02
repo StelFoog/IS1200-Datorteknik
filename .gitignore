@@ -2,4 +2,4 @@
 *.elf
 *.hex
 *.o
-*.deps/
+*Project/.deps/
