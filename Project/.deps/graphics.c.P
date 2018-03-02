@@ -1,2 +1,0 @@
-driver/graphics.c.o: driver/graphics.c driver/graphics.h
-driver/graphics.c driver/graphics.h :
