@@ -12,7 +12,6 @@
 #include "driver/OLED_I2C.h"
 
 
-#define POKEMON_COUNT 4
 
     // pseudo-random number generator
 unsigned int randImplemented (void) {
@@ -298,7 +297,6 @@ const pokemonStruct *choosePokemon(const pokemonStruct * list[]){
     }
 }
 
-
 int main(void) {
     // all moves
     const moveStruct protect =      {1, normal, 0, 100, 0x25, "Protect"};
@@ -320,6 +318,7 @@ int main(void) {
     const pokemonStruct temit = {"TEMIT", grass, ground, {leafBlade, quickAttack, mudBomb, charm}, 87, 110, 95, 80, 63, 92, &temitSprite};
     const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect, strength}, 116, 55, 65, 104, 43, 138, &qminxSprite};
     const pokemonStruct bidaul = {"BIDAUL", flying, null, {airCutter, slam, protect, shockWave}, 73, 147, 55, 54, 133, 68, &nullSprite};
+    const pokemonStruct seahorse = {"Seahorse", water, null, {slam, quickAttack, strength, protect}, 73, 147, 55, 53, 133, 68, &seahorseSprite};
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
 
     init();
@@ -328,7 +327,7 @@ int main(void) {
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &temit, &qminx, &bidaul};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &temit, &qminx, &bidaul, &seahorse};
     clrScr();
     while(1){
         while(getBtns() & 4);

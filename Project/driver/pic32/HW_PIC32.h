@@ -22,16 +22,13 @@ void _initTWI()
 	IFSCLR(0) = 0xE0000000;									// Clear Interrupt Flag
 	IECCLR(0) = 0xE0000000;									// Disable Interrupt
 	I2C1CONCLR = (1 << _I2CCON_ON);							// Disable I2C interface
-	//tpgd = ((F_CPU / 8) * 104) / 125000000;
-	//I2C1BRG = (F_CPU / (2 * TWI_FREQ) - tpgd) - 2;			// Set I2C Speed
-	I2C1BRG = 0x0C2; // Test speed, might want to change later
+	I2C1BRG = 0x0C2; 									// Set speed
 	I2C1ADD = SH1106_ADDR;									// Set I2C device address
 	I2C1CONSET = (1 << _I2CCON_ON) | (1 << _I2CCON_STREN);	// Enable I2C Interface
 }
 
 void update()
 {
-	//IECCLR(0) = 0xE0000000;
 	int i;
     for(i = 0 ; i < 8; i++){
         _sendTWIcommand(SH1106_SETSTARTPAGE + i);
@@ -57,8 +54,8 @@ void update()
 						int b;
 					for (b=0; b<16; b++){																// Send data
                 I2C1TRN = scrbuf[i * 128 + pixel];						// Set specifik pixel
-                while (I2C1STAT & (1 << _I2CSTAT_TRSTAT)) {}
-                while (I2C1STAT & (1 << _I2CSTAT_ACKSTAT)) {}
+                while (I2C1STAT & (1 << _I2CSTAT_TRSTAT)) {}  // Wait for transmit to finish
+                while (I2C1STAT & (1 << _I2CSTAT_ACKSTAT)) {} // Wait for ACK
                 ++pixel;
             }
             --pixel;
@@ -66,7 +63,6 @@ void update()
             while (I2C1CON & (1 << _I2CCON_PEN)) {}	// Wait for stop condition
         }
     }
-	//IECSET(0) = 0xE0000000; // set interuppt
 }
 
 void _sendTWIcommand(uint8_t value)
