@@ -1,2 +1,0 @@
-DefaultFonts.c.o: DefaultFonts.c
-DefaultFonts.c :
