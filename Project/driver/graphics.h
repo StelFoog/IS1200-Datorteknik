@@ -21,5 +21,6 @@ const sprite qminxSprite;
 const sprite temitSprite;
 const sprite nullSprite;
 const sprite ventiosSprite;
+const sprite bloomintSprite;
 
 #endif

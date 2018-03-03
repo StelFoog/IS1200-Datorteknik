@@ -335,7 +335,7 @@ int main(void) {
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &temit, &qminx, &bidaul, &seahorse,&ventios};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&bloomint, &temit, &qminx, &bidaul, &seahorse,&ventios};
     clrScr();
     while(1){
         while(getBtns() & 4);
