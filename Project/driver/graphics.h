@@ -20,5 +20,6 @@ const sprite seahorseSprite;
 const sprite qminxSprite;
 const sprite temitSprite;
 const sprite nullSprite;
+const sprite ventiosSprite;
 
 #endif

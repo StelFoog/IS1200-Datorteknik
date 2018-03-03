@@ -319,6 +319,8 @@ int main(void) {
     const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect, strength}, 116, 55, 65, 104, 43, 138, &qminxSprite};
     const pokemonStruct bidaul = {"BIDAUL", flying, null, {airCutter, slam, protect, shockWave}, 73, 147, 55, 54, 133, 68, &nullSprite};
     const pokemonStruct seahorse = {"Seahorse", water, null, {slam, quickAttack, strength, protect}, 73, 147, 55, 53, 133, 68, &seahorseSprite};
+    const pokemonStruct ventios = {"Ventios", flying,null , {airCutter, quickAttack, strength, protect}, 73, 147, 55, 53, 133, 68, &ventiosSprite};
+
     //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
 
     init();
@@ -327,7 +329,7 @@ int main(void) {
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &temit, &qminx, &bidaul, &seahorse};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &temit, &qminx, &bidaul, &seahorse,&ventios};
     clrScr();
     while(1){
         while(getBtns() & 4);

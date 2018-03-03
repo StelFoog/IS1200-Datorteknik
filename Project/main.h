@@ -1,7 +1,7 @@
 #ifndef HEADER_MAIN
 #define HEADER_MAIN
 
-#define POKEMON_COUNT 5
+#define POKEMON_COUNT 6
 #define MOVEAMOUNT 4 // amount of moves in a moveset
 
 #include "driver/graphics.h"
