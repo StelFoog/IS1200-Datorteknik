@@ -256,8 +256,8 @@ const pokemonStruct *choosePokemon(const pokemonStruct * list[]){
                 while(getBtns() & 4);
                 if(selected) {
                     return list[selected - 1];
-                } else() {
-                    return (randImplemented() % POKEMON_COUNT);
+                } else {
+                    return list[(randImplemented() % POKEMON_COUNT)];
                 }
             }
         }
@@ -296,10 +296,10 @@ const pokemonStruct *choosePokemon(const pokemonStruct * list[]){
             drawString(str, 44, 50);
 
             drawString("SpDef: ", 68, 50);
-            statString(str, list[selected - ]->baseSpDef);
+            statString(str, list[selected - 1]->baseSpDef);
             drawString(str, 108, 50);
         } else {
-            drawSprite(96,0, nullSprite->front, 32, 32);
+            drawSprite(96,0, nullSprite.front, 32, 32);
             drawString("RANDOM", 0, 2);
             drawString("Random ",0,10);
             drawString("Random ",52,10);
@@ -402,7 +402,7 @@ int main(void) {
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &undecided, &qminx, &ventios, &seahorse, &temit, &bloomint, &frosac};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &undecided, &qminx, &venitos, &seahorse, &temit, &bloomint, &frosac};
     clrScr();
     while(1){
         while(getBtns() & 4);
@@ -458,7 +458,7 @@ int main(void) {
             }
             idleAnimationDelay(&pokemon1, &pokemon2, 8);
         }
-        while (!(getBtns & 4));
+        while (!(getBtns() & 4));
     }
     /*
     printf("%d\n", statTotal(&ferretas));
