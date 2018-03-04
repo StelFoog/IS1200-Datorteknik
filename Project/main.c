@@ -385,17 +385,18 @@ int main(void) {
     const moveStruct swift =            {0, normal, 65, 100, 0x10, "Swift"};
     const moveStruct glacialCrush =     {0, ice, 90, 95, 0x00, "Glacial Crush"};
     const moveStruct crunch =           {9, normal, 70, 90, 0x00, "Crunch"};
+    const moveStruct sandBlast =        {0, ground, 75, 100, 0x10, "Sand Blast"};
 
     // all pokemon
     //const pokemonStruct ferretas = {"FERRETAS", fire, flying, {mysticFire, slam, wingAttack, quickAttack}, 78, 100, 84, 78, 109, 85, &nullSprite};/*sprite*/
-    const pokemonStruct rockstar = {"ROCKSTAR", grass, ground, {leafBlade, quickAttack, bulldoze, charm}, 87, 110, 95, 80, 63, 92, &rockstarSprite};/*sprite.name*/
+    //const pokemonStruct undecided = {"undecided", grass, ground, {leafBlade, quickAttack, bulldoze, charm}, 87, 110, 95, 80, 63, 92, &nullSprite};/*sprite.name*/
     const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect, strength}, 116, 55, 65, 104, 43, 138, &qminxSprite};/**/
     const pokemonStruct venitos = {"VENITOS", flying, null, {airCutter, swift, shockWave, protect}, 73, 147, 55, 54, 133, 68, &ventiosSprite};/**/
-    const pokemonStruct seahorse = {"SEAHORSE", water, null, {boil, hydroPump, frostShot, agility}, 93, 107, 55, 73, 113, 63, &seahorseSprite};/**/
+    const pokemonStruct arill = {"ARILL", water, null, {boil, hydroPump, frostShot, agility}, 93, 107, 55, 73, 113, 63, &arillSprite};/**/
     const pokemonStruct temit = {"TEMIT", electric, null, {thunderFang, quickAttack, staticBarrier, charm}, 88, 123, 95, 90, 68, 62, &temitSprite};/**/
     const pokemonStruct bloomint = {"BLOOMINT", fire, null, {burnTouch, blazeRod, boil, protect}, 124, 69, 102, 84, 53, 75, &bloomintSprite};/**/
-    const pokemonStruct frosac = {"FROSAC", ice, null, {glacialCrush, crunch, bulldoze, quickAttack}, 103, 93, 97, 81, 59, 54, &frosacSprite};/*sprite*/
-
+    const pokemonStruct frosac = {"FROSAC", ice, null, {glacialCrush, crunch, bulldoze, quickAttack}, 103, 93, 97, 81, 59, 54, &frosacSprite};/**/
+    const pokemonStruct rockstar = {"ROCKSTAR", ground, null, {sandBlast, bulldoze, swift, staticBarrier}, 84, 79, 96, 130, 106, 85, &rockstarSprite}/**/
 
     init();
     unsigned char timeoutcount = 0;
@@ -403,7 +404,7 @@ int main(void) {
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&rockstar, &qminx, &venitos, &seahorse, &temit, &bloomint, &frosac};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&qminx, &venitos, &seahorse, &temit, &bloomint, &frosac, &rockstar};
     clrScr();
     while(1){
         while(getBtns() & 4);

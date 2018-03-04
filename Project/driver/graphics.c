@@ -84,6 +84,7 @@ const sprite frosacSprite = {
     0x00, 0x00, 0x00, 0x00
   }
 };
+
 const sprite rockstarSprite = {
   {
     0x01, 0xc0, 0x00, 0x00,
@@ -154,7 +155,7 @@ const sprite rockstarSprite = {
   }
 };
 
-const sprite seahorseSprite = {
+const sprite arillSprite = {
   {
     0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
