@@ -1,8 +1,8 @@
 #ifndef HEADER_MAIN
 #define HEADER_MAIN
 
-#define POKEMON_COUNT 6
-#define MOVEAMOUNT 4 // amount of moves in a moveset
+#define POKEMON_COUNT 8
+#define MOVEAMOUNT 4 // amount of moves in a moveset (should always be 4, mostly used early on to test features)
 
 #include "driver/graphics.h"
     // all types
@@ -56,6 +56,8 @@ typedef struct battlePokemon{
     unsigned char flag;
     const sprite *sprite;
 } battlePokemon; // size of battlePokemon is 112 byte
+
+unsigned int randImplemented(void);
 
 char * hpString(char str[], unsigned short hp, unsigned char curleng);
 

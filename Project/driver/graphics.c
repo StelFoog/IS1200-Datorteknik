@@ -84,6 +84,7 @@ const sprite seahorseSprite = {
     0x00, 0x00, 0x00, 0x00
   }
 };
+
 const sprite bloomintSprite = {
   {
     0x00, 0x00, 0x00, 0x00,
@@ -223,6 +224,7 @@ const sprite ventiosSprite = {
     0x00, 0x00, 0x00, 0x00
   }
 };
+
 const sprite qminxSprite = {
     {
       0x00, 0x00, 0x00, 0x00,
@@ -432,6 +434,7 @@ const sprite nullSprite = {
         0x00, 0x00, 0x00, 0x00
     }
 };
+
 const unsigned char spAtkSprite[8] = {
     0x04,
     0x4c,

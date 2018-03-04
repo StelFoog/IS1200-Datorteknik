@@ -281,16 +281,26 @@ void attackExec(moveStruct * move, battlePokemon * atkPokemon, battlePokemon * d
             setStageBuff(&(*defPokemon).pyAtkStage, -2);
             break;
         case 4:
-            setStageBuff(&(*defPokemon).speedStage, -1);
+            if((randImplemented() % 100) >= 30) {
+                setStageBuff(&(*defPokemon).speedStage, -1);
+            }
             break;
         case 5:
-            setStageBuff(&(*atkPokemon).speedStage, +2);
+            setStageBuff(&(*atkPokemon).pyDefStage, +2);
             break;
         case 6:
             setStageBuff(&(*defPokemon).pyDefStage, -1);
             break;
         case 7:
             setStageBuff(&(*atkPokemon).spAtkStage, +1);
+            break;
+        case 8:
+            setStageBuff(&(*atkPokemon).speedStage, +2);
+            break;
+        case 9:
+            if((randImplemented() % 100) >= 80) {
+                setStageBuff(&(*defPokemon).pyDefStage, -1);
+            }
             break;
         default:
             //printf("Moveset error\n");

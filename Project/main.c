@@ -3,7 +3,7 @@
 //#include <math.h>
 #include <string.h>
 //#include <time.h>
-//#include <pic32mx.h>
+#include <pic32mx.h>
 #include "main.h"
 #include "battle.h"
 #include "flags.h"
@@ -12,14 +12,14 @@
 #include "driver/OLED_I2C.h"
 
 
-
-// debugging – the total value of a pokemons base stats
+/*
+// testing – the total value of a pokemons base stats
 int statTotal(const pokemonStruct *pkmn) {
     return pkmn->baseHp + pkmn->baseSpeed + pkmn->basePyAtk + pkmn->basePyDef + pkmn->baseSpAtk + pkmn->baseSpDef;
 }
-/*
+*/
     // pseudo-random number generator
-unsigned int randImplemented (void) {
+unsigned int randImplemented(void) {
    static unsigned int z1 = 12345, z2 = 12345, z3 = 12345, z4 = 12345;
    unsigned int b;
    b  = ((z1 << 6) ^ z1) >> 13;
@@ -254,56 +254,117 @@ const pokemonStruct *choosePokemon(const pokemonStruct * list[]){
             }
             if(getBtns() == (1 << 2)) {
                 while(getBtns() & 4);
-                return list[selected];
+                if(selected) {
+                    return list[selected - 1];
+                } else() {
+                    return (randImplemented() % POKEMON_COUNT);
+                }
             }
         }
-        if(selected > POKEMON_COUNT-1){
+        if(selected > POKEMON_COUNT){
             selected = 0;
         }
         if(selected < 0){
-            selected = POKEMON_COUNT-1;
+            selected = POKEMON_COUNT;
         }
         clrScr();
-        drawSprite(96,0, list[selected]->sprite->front, 32, 32);
-        drawString(list[selected]->name, 0, 2);
-        drawString(strings[list[selected]->pokemonType1],0,10);
-        drawString(strings[list[selected]->pokemonType2],52,10);
+        if(selected) {
+            drawSprite(96,0, list[selected - 1]->sprite->front, 32, 32);
+            drawString(list[selected - 1]->name, 0, 2);
+            drawString(strings[list[selected - 1]->pokemonType1],0,10);
+            drawString(strings[list[selected - 1]->pokemonType2],52,10);
+            drawString("Stats", 0, 24);
+
+            drawString("HP:    ", 2, 34);
+            statString(str, list[selected - 1]->baseHp);
+            drawString(str, 44, 34);
+
+            drawString("Speed: ", 68, 34);
+            statString(str, list[selected - 1]->baseSpeed);
+            drawString(str, 108, 34);
+
+            drawString("PyAtk: ", 2, 42);
+            statString(str, list[selected - 1]->basePyAtk);
+            drawString(str, 44, 42);
+
+            drawString("SpAtk: ", 68, 42);
+            statString(str, list[selected - 1]->baseSpAtk);
+            drawString(str, 108, 42);
+
+            drawString("PyDef: ", 2, 50);
+            statString(str, list[selected - 1]->basePyDef);
+            drawString(str, 44, 50);
+
+            drawString("SpDef: ", 68, 50);
+            statString(str, list[selected - ]->baseSpDef);
+            drawString(str, 108, 50);
+        } else {
+            drawSprite(96,0, nullSprite->front, 32, 32);
+            drawString("RANDOM", 0, 2);
+            drawString("Random ",0,10);
+            drawString("Random ",52,10);
+            drawString("Stats", 0, 24);
+
+            drawString("HP:    ", 2, 34);
+            drawString("???", 44, 34);
+
+            drawString("Speed: ", 68, 34);
+            drawString("???", 108, 34);
+
+            drawString("PyAtk: ", 2, 42);
+            drawString("???", 44, 42);
+
+            drawString("SpAtk: ", 68, 42);
+            drawString("???", 108, 42);
+
+            drawString("PyDef: ", 2, 50);
+            drawString("???", 44, 50);
+
+            drawString("SpDef: ", 68, 50);
+            drawString("???", 108, 50);
+        }
+        /*
+        drawSprite(96,0, list[selected - 1]->sprite->front, 32, 32);
+        drawString(list[selected - 1]->name, 0, 2);
+        drawString(strings[list[selected - 1]->pokemonType1],0,10);
+        drawString(strings[list[selected - 1]->pokemonType2],52,10);
         drawString("Stats", 0, 24);
 
         drawString("HP:    ", 2, 34);
-        statString(str, list[selected]->baseHp);
+        statString(str, list[selected - 1]->baseHp);
         drawString(str, 44, 34);
 
         drawString("Speed: ", 68, 34);
-        statString(str, list[selected]->baseSpeed);
+        statString(str, list[selected - 1]->baseSpeed);
         drawString(str, 108, 34);
 
         drawString("PyAtk: ", 2, 42);
-        statString(str, list[selected]->basePyAtk);
+        statString(str, list[selected - 1]->basePyAtk);
         drawString(str, 44, 42);
 
         drawString("SpAtk: ", 68, 42);
-        statString(str, list[selected]->baseSpAtk);
+        statString(str, list[selected - 1]->baseSpAtk);
         drawString(str, 108, 42);
 
         drawString("PyDef: ", 2, 50);
-        statString(str, list[selected]->basePyDef);
+        statString(str, list[selected - 1]->basePyDef);
         drawString(str, 44, 50);
 
         drawString("SpDef: ", 68, 50);
-        statString(str, list[selected]->baseSpDef);
+        statString(str, list[selected - ]->baseSpDef);
         drawString(str, 108, 50);
+        */
 
         drawSprite(4 * selected, 60, pkmnSelectCursor, 4, 4);
     }
 }
-*/
+
 int main(void) {
     // all moves
     const moveStruct protect =          {1, normal, 0, 100, 0x25, "Protecc"};
     const moveStruct mysticFire =       {0, fire, 65, 100, 0x10, "Mystic Fire"};
     const moveStruct slam =             {0, normal, 80, 75, 0x00, "Slam"};
-    const moveStruct quickAttack =      {0, normal, 40, 100, 0x02, "Quick Attack"};
+    const moveStruct quickAttack =      {0, normal, 35, 100, 0x02, "Quick Attack"};
     const moveStruct wingAttack =       {0, flying, 60, 100, 0x00, "Wing Attack"};
     const moveStruct airCutter =        {0, flying, 60, 95, 0x10, "Air Cutter"};
     const moveStruct leafBlade =        {0, grass, 85, 95, 0x00, "Leaf Blade"};
@@ -311,31 +372,37 @@ int main(void) {
     const moveStruct curse =            {2, null, 0, 100, 0x20, "Curse"};
     const moveStruct charm =            {3, normal, 0, 100, 0x20, "Charm"};
     const moveStruct strength =         {0, normal, 75, 90, 0x00, "Strength"};
-    const moveStruct shockWave =        {0, electric, 70, 100, 0x10, "Shock Wave"};
+    const moveStruct shockWave =        {0, electric, 50, 95, 0x10, "Shock Wave"};
     const moveStruct bulldoze =         {4, ground, 60, 95, 0x00, "Bulldoze"};
     const moveStruct thunderFang =      {0, electric, 75, 100, 0x00, "Thunder Fang"};
     const moveStruct staticBarrier =    {5, electric, 0, 100, 0x20, "Static Barrier"};
     const moveStruct burnTouch =        {0, fire, 55, 100, 0x01, "Burn Touch"};
     const moveStruct blazeRod =         {6, fire, 85, 70, 0x00, "Blaze Rod"};
-    const moveStruct boil =             {7, water, 55, 85, 0x10, "Boil"};
+    const moveStruct boil =             {7, water, 40, 85, 0x10, "Boil"};
+    const moveStruct hydroPump =        {0, water, 100, 75, 0x10, "Hydro Pump"};
+    const moveStruct agility =          {8, normal, 0, 100, 0x20, "Agility"};
+    const moveStruct frostShot =        {4, ice, 50, 100, 0x10, "Frost Shot"};
+    const moveStruct swift =            {0, normal, 65, 100, 0x10, "Swift"};
+    const moveStruct glacialCrush =     {0, ice, 90, 95, 0x00, "Glacial Crush"};
+    const moveStruct crunch =           {9, normal, 70, 90, 0x00, "Crunch"};
     // all pokemon
     const pokemonStruct ferretas = {"FERRETAS", fire, flying, {mysticFire, slam, wingAttack, quickAttack}, 78, 100, 84, 78, 109, 85, &nullSprite};/*sprite*/
     const pokemonStruct undecided = {"undecided", grass, ground, {leafBlade, quickAttack, bulldoze, charm}, 87, 110, 95, 80, 63, 92, &nullSprite};/*sprite.name*/
     const pokemonStruct qminx = {"QMINX", grass, null, {leafBlade, curse, protect, strength}, 116, 55, 65, 104, 43, 138, &qminxSprite};/**/
-    const pokemonStruct venitos = {"VENITOS", flying, null, {airCutter, slam, protect, shockWave}, 73, 147, 55, 54, 133, 68, &ventiosSprite};/*moveset*/
-    const pokemonStruct seahorse = {"SEAHORSE", water, null, {slam, quickAttack, strength, protect}, 73, 147, 55, 53, 133, 68, &seahorseSprite};/*stats.moveset*/
+    const pokemonStruct venitos = {"VENITOS", flying, null, {airCutter, swift, shockWave, protect}, 73, 147, 55, 54, 133, 68, &ventiosSprite};/**/
+    const pokemonStruct seahorse = {"SEAHORSE", water, null, {boil, hydroPump, frostShot, agility}, 93, 107, 55, 73, 113, 63, &seahorseSprite};/**/
     const pokemonStruct temit = {"TEMIT", electric, null, {thunderFang, quickAttack, staticBarrier, charm}, 88, 123, 95, 90, 68, 62, &temitSprite};/**/
-    const pokemonStruct bloomint = {"BLOOMINT", fire, null, {burnTouch, blazeRod, boil, protect}, 124, 69, 102, 84, 53, 75, &nullSprite};/*sprite*/
-    //const pokemonStruct icePoke = {"icePoke", ice, null, {}}
+    const pokemonStruct bloomint = {"BLOOMINT", fire, null, {burnTouch, blazeRod, boil, protect}, 124, 69, 102, 84, 53, 75, &bloomintSprite};/**/
+    const pokemonStruct frosac = {"FROSAC", ice, null, {glacialCrush, crunch, bulldoze, quickAttack}, 103, 93, 97, 81, 59, 54, &nullSprite};/*sprite*/
 
-    /*
+
     init();
     unsigned char timeoutcount = 0;
     while(!(getBtns() & 4)){
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&bloomint, &temit, &qminx, &bidaul, &seahorse,&ventios};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&ferretas, &undecided, &qminx, &ventios, &seahorse, &temit, &bloomint, &frosac};
     clrScr();
     while(1){
         while(getBtns() & 4);
@@ -391,8 +458,9 @@ int main(void) {
             }
             idleAnimationDelay(&pokemon1, &pokemon2, 8);
         }
+        while (!(getBtns & 4));
     }
-    */
+    /*
     printf("%d\n", statTotal(&ferretas));
     printf("%d\n", statTotal(&undecided));
     printf("%d\n", statTotal(&qminx));
@@ -400,8 +468,8 @@ int main(void) {
     printf("%d\n", statTotal(&seahorse));
     printf("%d\n", statTotal(&temit));
     printf("%d\n", statTotal(&bloomint));
-
-
+    printf("%d\n", statTotal(&frosac));
+    */
 
     return 0;
 }
