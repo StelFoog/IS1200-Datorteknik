@@ -22,5 +22,7 @@ const sprite temitSprite;
 const sprite nullSprite;
 const sprite ventiosSprite;
 const sprite bloomintSprite;
+const sprite frosacSprite;
+const sprite rockstarSprite;
 
 #endif
