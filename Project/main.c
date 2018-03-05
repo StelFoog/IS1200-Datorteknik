@@ -364,7 +364,7 @@ int main(void) {
     const moveStruct protect =          {1, normal, 0, 100, 0x25, "Protecc"};
     const moveStruct mysticFire =       {0, fire, 65, 100, 0x10, "Mystic Fire"};
     const moveStruct slam =             {0, normal, 80, 75, 0x00, "Slam"};
-    const moveStruct quickAttack =      {0, normal, 35, 100, 0x02, "Quick Attack"};
+    const moveStruct quickAttack =      {0, normal, 45, 100, 0x02, "Quick Attack"};
     const moveStruct wingAttack =       {0, flying, 60, 100, 0x00, "Wing Attack"};
     const moveStruct airCutter =        {0, flying, 60, 95, 0x10, "Air Cutter"};
     const moveStruct leafBlade =        {0, grass, 85, 95, 0x00, "Leaf Blade"};
@@ -376,15 +376,15 @@ int main(void) {
     const moveStruct bulldoze =         {4, ground, 60, 95, 0x00, "Bulldoze"};
     const moveStruct thunderFang =      {0, electric, 75, 100, 0x00, "Thunder Fang"};
     const moveStruct staticBarrier =    {5, electric, 0, 100, 0x20, "Static Barrier"};
-    const moveStruct burnTouch =        {0, fire, 55, 100, 0x01, "Burn Touch"};
-    const moveStruct blazeRod =         {6, fire, 85, 70, 0x00, "Blaze Rod"};
-    const moveStruct boil =             {7, water, 40, 85, 0x10, "Boil"};
+    const moveStruct burnTouch =        {0, fire, 50, 100, 0x01, "Burn Touch"};
+    const moveStruct blazeRod =         {6, fire, 85, 85, 0x00, "Blaze Rod"};
+    const moveStruct boil =             {7, water, 30, 90, 0x10, "Boil"};
     const moveStruct hydroPump =        {0, water, 100, 75, 0x10, "Hydro Pump"};
     const moveStruct agility =          {8, normal, 0, 100, 0x20, "Agility"};
     const moveStruct frostShot =        {4, ice, 50, 100, 0x10, "Frost Shot"};
     const moveStruct swift =            {0, normal, 65, 100, 0x10, "Swift"};
     const moveStruct glacialCrush =     {0, ice, 90, 95, 0x00, "Glacial Crush"};
-    const moveStruct crunch =           {9, normal, 70, 90, 0x00, "Crunch"};
+    const moveStruct crunch =           {6, normal, 70, 90, 0x00, "Crunch"};
     const moveStruct sandBlast =        {0, ground, 75, 100, 0x10, "Sand Blast"};
 
     // all pokemon
@@ -396,7 +396,7 @@ int main(void) {
     const pokemonStruct temit = {"TEMIT", electric, null, {thunderFang, quickAttack, staticBarrier, charm}, 88, 123, 95, 90, 68, 62, &temitSprite};/**/
     const pokemonStruct bloomint = {"BLOOMINT", fire, null, {burnTouch, blazeRod, boil, protect}, 124, 69, 102, 84, 53, 75, &bloomintSprite};/**/
     const pokemonStruct frosac = {"FROSAC", ice, null, {glacialCrush, crunch, bulldoze, quickAttack}, 103, 93, 97, 81, 59, 54, &frosacSprite};/**/
-    const pokemonStruct rockstar = {"ROCKSTAR", ground, null, {sandBlast, bulldoze, swift, staticBarrier}, 84, 79, 96, 130, 106, 85, &rockstarSprite}/**/
+    const pokemonStruct rockstar = {"ROCKSTAR", ground, null, {sandBlast, bulldoze, swift, staticBarrier}, 84, 79, 96, 130, 106, 85, &rockstarSprite};/**/
 
     init();
     unsigned char timeoutcount = 0;
@@ -404,7 +404,7 @@ int main(void) {
         randImplemented();
     }
     battlePokemon pokemon1, pokemon2;
-    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&qminx, &venitos, &seahorse, &temit, &bloomint, &frosac, &rockstar};
+    const pokemonStruct * pokemonList[POKEMON_COUNT] = {&qminx, &venitos, &arill, &temit, &bloomint, &frosac, &rockstar};
     clrScr();
     while(1){
         while(getBtns() & 4);
