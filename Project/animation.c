@@ -204,7 +204,7 @@ void faintAnimation(battlePokemon *pkmn1, battlePokemon *pkmn2, char faintedPkmn
             if(counter < 4) {
                 drawSprite(0, 32, pkmn1->sprite->back, 32, 32);
             } else if(counter < 12) {
-                drawSprite(96, 32 + counter-4, pkmn2->sprite->front, 32, 32);
+                drawSprite(0, 32 + counter-4, pkmn1->sprite->back, 32, 32);
             }
             drawSprite(96, moveCount, pkmn2->sprite->front, 32, 32);
         }
