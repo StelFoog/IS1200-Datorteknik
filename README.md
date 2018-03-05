@@ -32,6 +32,9 @@ Lab assignments and project for the KTH course IS1200-Datorteknik
   * **Assignment 4:** Complete
   
 ## Project
+Our [advanced] project is ment top be a two player battle-simluator for a "dumbed down" version of the first generation of Pokémon games. Our project is – in essance – supposed to host a collection of Pokémon (of our own making) to choose from as well as a fully functional (though far simpler) version of the battle system found in the Pokémon-series.
+
+### Status
 #### Project finished
 The project is finished but could be inproved in slight ways. More Pokémon could be added along with more moves. 
 Even though the memory management is more than adequate, changes could be made to give slight improvements.
