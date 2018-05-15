@@ -34,6 +34,15 @@ Lab assignments and project for the KTH course IS1200-Datorteknik
 ## Project
 Our [advanced] project is ment top be a two player battle-simluator for a "dumbed down" version of the first generation of Pokémon games. Our project is – in essance – supposed to host a collection of Pokémon (of our own making) to choose from as well as a fully functional (though far simpler) version of the battle system found in the Pokémon-series.
 
+### Work
+#### Samuel:
+* Did most of the logic work. Including planing, writing and balancing.
+* Wrote the first version of the sprite drawing function.
+
+#### Axel:
+* Did most of the work on the graphics driver.
+* Alterd logic code to utilize more pointers.
+
 ### Status
 #### Project finished
 The project is finished but could be inproved in slight ways. More Pokémon could be added along with more moves. 
@@ -45,4 +54,4 @@ The project was presented and passed as an advnaced project! :D
 #### Known issues
 - [ ] Sometimes HP goes out of bounds or becomes a random collection of symbols
 - [ ] Sometimes the second move on the first turn doesn't process or animate
-- [ ] Input is sometimes not as responsive as wanted
+- [x] Input is sometimes not as responsive as wanted
